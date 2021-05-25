@@ -10,8 +10,8 @@ import Experiencias from '../models/Experiencias';
 export class ColaboradorComponent implements OnInit {
 
   constructor() { }
-
-  private showExp = false;
+  consultMode = true;
+  private showExp = true;
   private ListExperiencias = [];
   private Colaborador;
 

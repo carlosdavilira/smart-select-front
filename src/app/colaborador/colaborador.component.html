@@ -1,6 +1,7 @@
+<div *ngIf="!consultMode">
 <div class="jumbotron jumbotron-fluid">
   <div class="container">
-    <h1 class="display-4 title">Colaborador</h1>
+    <h1 class="display-4 title">Cadastro de Colaborador</h1>
     <p class="lead title"></p>
   </div>
 </div>
@@ -61,3 +62,102 @@
     <button type="submit" class="btn btn-primary float-right">Salvar</button>
   </form>
 </div>
+
+</div>
+<div *ngIf="consultMode">
+  <div class="jumbotron jumbotron-fluid">
+    <div class="container">
+      <h1 class="display-4 title">Consulta de Colaboradores</h1>
+      <p class="lead title"></p>
+    </div>
+  </div>
+  <div class="container">
+    <div class="input-group rounded">
+      <input type="search" class="form-control rounded" placeholder="Search" aria-label="Search"
+        aria-describedby="search-addon" />
+      <span class="input-group-text border-0 search-button" id="search-addon">
+        <i class="fa fa-camera-retro"></i>
+      </span>
+    </div>
+    <ul class="list-group list-espec">
+      <li class="list-group-item" data-toggle="modal" data-target="#exampleModal">Carlos David Lira</li>
+      <li class="list-group-item">Francisco Alves da Silva</li>
+      <li class="list-group-item">Rener Souza</li>
+      <li class="list-group-item">João Portela de Assis</li>
+      <li class="list-group-item">Estenio Vargas Garcia</li>
+    </ul>
+  </div>
+
+<!-- Modal -->
+<div class="modal fade" id="exampleModal" tabindex="-1" role="dialog" aria-labelledby="exampleModalLabel" aria-hidden="true">
+  <div class="modal-dialog modal-lg" role="document">
+    <div class="modal-content">
+      <div class="modal-header">
+        <h5 class="modal-title" id="exampleModalLabel">Detalhes Colaborador</h5>
+        <button type="button" class="close" data-dismiss="modal" aria-label="Close">
+          <span aria-hidden="true">&times;</span>
+        </button>
+      </div>
+      <div class="modal-body">
+        <!-- Conteúdo Modal-->
+        <form>
+          <div class="form-group">
+            <label class="sub-title">- Informações Gerais</label>
+          </div>
+          <div class="form-group">
+            <label for="nomeColaborador">Nome Completo</label>
+            <input type="text" disabled class="form-control" id="nomeColaborador" aria-describedby="nomeColaborador" placeholder="Carlos David Lira">
+          </div>
+          <div class="form-group">
+            <label for="projetoAtual">Projeto Atual</label>
+            <input type="text" disabled class="form-control" id="projetoAtual" placeholder="Smart Select">
+          </div>
+          <div class="form-group">
+            <label for="nomeGerente">Nome do Gerente Atual</label>
+            <input type="text" disabled class="form-control" id="nomeGerente" placeholder="Rafael Alves Florindo">
+          </div>
+          <div class="form-group">
+            <label for="habilidadesNecessarias">Habilidades</label>
+            <input type="text" disabled class="form-control" id="habilidadesNecessarias" placeholder="Java, Angular, MySQL, Android, HTML, CSS, Typescript, Swift, SAP ">
+          </div>
+
+          <div class="form-group">
+
+            <label class="sub-title">- Experiências Anteriores</label>
+            <!--button-- type="submit" class="btn btn-outline-success float-right" (click)="addExperiencia()">Adicionar + </!--button-->
+
+            <!--div *ngFor="user of ListExperiencias"-->
+            <div class="form-group">
+              <label for="nomeEmpresa">Nome da Empresa</label>
+              <input type="text" disabled class="form-control" id="nomeEmpresa" aria-describedby="nomeEmpresa" placeholder="Empresa X">
+            </div>
+            <div class="form-group">
+              <label for="nomeCargo">Cargo</label>
+              <input type="text" disabled class="form-control" id="nomeCargo" placeholder="Desenvolvedor de Software">
+            </div>
+            <div class="form-group">
+              <label for="atividadesRealizadas">Atividades Realizadas</label>
+              <input type="text" disabled class="form-control" id="atividadesRealizadas" placeholder="Atuando na manutenção e desenvolvimento de sistemas Web, com Angular no front-end e Java no back-end">
+            </div>
+            <div class="form-group">
+              <label for="dataInicio">Data Início</label>
+              <input type="text" disabled class="form-control" id="dataInicio" placeholder="01/01/2019">
+            </div>
+            <div class="form-group">
+              <label for="dataFim">Data Fim</label>
+              <input type="text" disabled class="form-control" id="dataFim" placeholder="31/12/2020">
+            </div>
+          </div>
+          <!--/div-->
+        </form>
+      </div>
+      <div class="modal-footer">
+        <button type="button" class="btn btn-secondary" data-dismiss="modal">Fechar</button>
+      </div>
+    </div>
+  </div>
+</div>
+  </div>
+
+
+
