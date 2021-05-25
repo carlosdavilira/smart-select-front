@@ -3,8 +3,26 @@
 
   <a class="navbar-brand" href="#Home">Home</a>
   <a class="navbar-brand" href="#Usuarios">Usuários</a>
-  <a class="navbar-brand" href="#Projeto">Projetos</a>
-  <a class="navbar-brand" href="#Colaborador">Colaborador</a>
+  <div class="navbar-brand dropdown">
+    <a class="navbar-brand dropdown-toggle" href="#" id="navbarDropdown" role="button" data-toggle="dropdown" aria-haspopup="true" aria-expanded="false">
+      Projeto
+    </a>
+    <div class="dropdown-menu" aria-labelledby="dropdownMenuButton">
+      <a class="dropdown-item" href="#CadastroProjeto">Cadastro de Projetos</a>
+      <a class="dropdown-item" href="#ConsultaProjeto">Consulta de Projeto</a>
+    </div>
+  </div>
+  <div class="navbar-brand dropdown">
+    <a class="navbar-brand dropdown-toggle" href="#" id="navbarDropdown" role="button" data-toggle="dropdown" aria-haspopup="true" aria-expanded="false">
+      Colaborador
+    </a>
+    <div class="dropdown-menu" aria-labelledby="dropdownMenuButton">
+      <a class="dropdown-item" href="#CadastroColaborador">Cadastro de Colaborador</a>
+      <a class="dropdown-item" href="#ConsultaProjeto">Cadastro de Colaborador</a>
+    </div>
+  </div>
+
+
 
 
   <button class="navbar-toggler" type="button" data-toggle="collapse" data-target="#navbarSupportedContent" aria-controls="navbarSupportedContent" aria-expanded="false" aria-label="Toggle navigation">
@@ -24,12 +42,12 @@
       </li>
     </ul>
     <form class="form-inline my-2 my-lg-0">
-      <a class="navbar-brand" >Usuário: David</a>
+      <a class="navbar-brand" >Usuário: Carlos David</a>
       <!--input class="form-control mr-sm-2" type="search" placeholder="Search" aria-label="Search"-->
-      <button class="btn btn-outline-error my-2 my-sm-0" type="">Logout</button>
+      <button class="btn btn-outline-secondary my-2 my-sm-0" type="">Logout</button>
     </form>
   </div>
 </nav>
 <!--app-projeto  href="#Projeto"> </!--app-projeto-->
-<!--app-colaborador></!--app-colaborador-->
-<app-usuario></app-usuario>
+<app-colaborador></app-colaborador>
+<!--app-usuario></!--app-usuario-->
