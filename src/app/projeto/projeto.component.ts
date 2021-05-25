@@ -7,6 +7,8 @@ import { Component, OnInit } from '@angular/core';
 })
 export class ProjetoComponent implements OnInit {
 
+  consultMode = true;
+
   constructor() { }
 
   ngOnInit() {

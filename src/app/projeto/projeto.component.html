@@ -1,7 +1,8 @@
+<div *ngIf="!consultMode">
 <div class="jumbotron jumbotron-fluid">
   <div class="container">
-    <h1 class="display-4 title">Projetos</h1>
-    <p class="lead title">Realize o controle dos projetos disponíveis</p>
+    <h1 class="display-4 title">Cadastro de Projetos</h1>
+    <!--p class="lead title">Realize o controle dos projetos disponíveis</!--p-->
   </div>
 </div>
 <div class="container">
@@ -20,4 +21,66 @@
     </div>
     <button type="submit" class="btn btn-primary float-right">Salvar</button>
   </form>
+</div>
+</div>
+
+<div *ngIf="consultMode">
+  <div class="jumbotron jumbotron-fluid">
+    <div class="container">
+      <h1 class="display-4 title">Consulta de Projetos</h1>
+      <p class="lead title"></p>
+    </div>
+  </div>
+  <div class="container">
+    <div class="input-group rounded">
+      <input type="search" class="form-control rounded" placeholder="Search" aria-label="Search"
+        aria-describedby="search-addon" />
+      <span class="input-group-text border-0 search-button" id="search-addon">
+        <i class="fa fa-camera-retro"></i>
+      </span>
+    </div>
+    <ul class="list-group list-espec">
+      <li class="list-group-item" data-toggle="modal" data-target="#exampleModal">Integra UNICESUMAR</li>
+      <li class="list-group-item" >Conecta Maringá</li>
+      <li class="list-group-item">Smart City Laguna</li>
+      <li class="list-group-item">Integração Pague Menos e Extra Farma</li>
+      <li class="list-group-item">Localiza EcoPontos</li>
+    </ul>
+  </div>
+
+<!-- Modal -->
+<div class="modal fade" id="exampleModal" tabindex="-1" role="dialog" aria-labelledby="exampleModalLabel" aria-hidden="true">
+  <div class="modal-dialog modal-lg" role="document">
+    <div class="modal-content">
+      <div class="modal-header">
+        <h5 class="modal-title" id="exampleModalLabel">Detalhes Projeto</h5>
+        <button type="button" class="close" data-dismiss="modal" aria-label="Close">
+          <span aria-hidden="true">&times;</span>
+        </button>
+      </div>
+      <div class="modal-body">
+        <!-- Conteúdo Modal-->
+        <form>
+          <div class="form-group">
+            <label for="exampleInputEmail1">Nome do Projeto</label>
+            <input type="text" class="form-control" disabled id="exampleInputEmail1" aria-describedby="emailHelp" placeholder="Integra UNICESUMAR">
+          </div>
+          <div class="form-group">
+            <label for="habilidades">Habilidades Necessárias</label>
+            <input type="text" class="form-control" disabled id="habilidadesNecessarias" placeholder="Java,Spring FrameWork, HTML, CSS, Javascript, Typescript">
+          </div>
+          <div class="form-group">
+            <label for="habilidades">Tempo Médio de Experiêncio Necessário</label>
+            <input type="text" class="form-control" disabled id="habilidadesNecessarias" placeholder="2 Anos">
+          </div>
+        </form>
+
+      </div>
+      <div class="modal-footer">
+        <button type="button" class="btn btn-secondary" data-dismiss="modal">Fechar</button>
+      </div>
+    </div>
+  </div>
+</div>
+
 </div>
