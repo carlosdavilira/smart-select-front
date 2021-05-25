@@ -1,0 +1,34 @@
+.title{
+  text-align: center;
+}
+
+.container-espc{
+  margin-top: 50px;
+}
+
+.texto-relatorio{
+  font-size: 20px;
+  text-align: center;
+}
+
+.text-project{
+  margin-right: 50px;
+}
+
+.btn-group-espec{
+  margin-left: 50px;
+}
+
+.list-espec{
+  margin-top: 50px;
+}
+
+.list-group-item:hover{
+  background-color: lightsteelblue;
+}
+
+.search-button{
+  margin-left: 15px;
+  width: 50px;
+  height: 50px;
+}

@@ -5,13 +5,15 @@ import { AppComponent } from './app.component';
 import { ProjetoComponent } from './projeto/projeto.component';
 import { ColaboradorComponent } from './colaborador/colaborador.component';
 import { UsuarioComponent } from './usuario/usuario.component';
+import { RelatorioComponent } from './relatorio/relatorio.component';
 
 @NgModule({
   declarations: [
     AppComponent,
     ProjetoComponent,
     ColaboradorComponent,
-    UsuarioComponent
+    UsuarioComponent,
+    RelatorioComponent
   ],
   imports: [
     BrowserModule
