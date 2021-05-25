@@ -1,13 +1,13 @@
 <div class="jumbotron jumbotron-fluid">
   <div class="container">
     <h1 class="display-4 title">Relatório de Alocação de Colaboradores</h1>
-    <p class="lead title">Criação de usuários para o sistema</p>
+    <p class="lead title"></p>
   </div>
 </div>
 <div class="container">
   <form>
     <div class="form-group">
-    <label for="nomeUsuario" class=" alert alert-warning texto-relatorio d-flex justify-content-center bd-highlight mb-3">Selecione o projeto para realizar a combineção com as habilidades dos colaboradores</label>
+    <label for="nomeUsuario" class=" alert alert-warning texto-relatorio d-flex justify-content-center bd-highlight mb-3">Selecione o projeto para realizar a combinação com as habilidades dos colaboradores</label>
     <div class="form-group container-espc">
     <label for="nomeUsuario">Projeto:</label>
     <div class="btn-group btn-group-espec">
@@ -24,13 +24,15 @@
     </div>
     <div class="modal-footer">
       <button type="button" class="btn btn-success float-right" data-dismiss="modal" (click)="showResults()">Processar relatório</button>
+      <button type="button" class="btn btn-secondary float-right" data-dismiss="modal" (click)="showResults()">Imprimir</button>
+
     </div>
     </div>
   </div>
   </form>
 </div>
 
-<div class="container container-espc">
+<div class="container container-espc" *ngIf="results">
   <label for="nomeUsuario" class=" alert alert-success texto-relatorio d-flex justify-content-center bd-highlight mb-3">Foram encontrados os colaboradores compatíveis com o projeto selecionado</label>
   <ul class="list-group list-espec">
     <li class="list-group-item" data-toggle="modal" data-target="#exampleModal" data-toggle="modal" data-target="#exampleModal">Carlos David Lira</li>
@@ -52,20 +54,46 @@
       </div>
       <div class="modal-body">
         <!-- Conteúdo Modal-->
-        <form>
-          <div class="form-group">
-            <label for="exampleInputEmail1">Nome do Projeto</label>
-            <input type="text" class="form-control" disabled id="exampleInputEmail1" aria-describedby="emailHelp" placeholder="Integra UNICESUMAR">
+        <div class="row">
+        <div class="col-6 col-sm-6 modal-left-side">
+          <form>
+            <div class="form-group">
+              <label for="nomeColaborador">Nome Completo</label>
+              <input type="text" disabled class="form-control" id="nomeColaborador" aria-describedby="nomeColaborador" placeholder="Carlos David Lira">
+            </div>
+            <div class="form-group">
+              <label for="projetoAtual">Projeto Atual</label>
+              <input type="text" disabled class="form-control" id="projetoAtual" placeholder="Smart Select">
+            </div>
+            <div class="form-group">
+              <label for="nomeGerente">Nome do Gerente Atual</label>
+              <input type="text" disabled class="form-control" id="nomeGerente" placeholder="Rafael Alves Florindo">
+            </div>
+            <div class="form-group">
+              <label for="habilidadesNecessarias">Habilidades</label>
+              <input type="text" disabled class="form-control" id="habilidadesNecessarias" placeholder="Java, Angular, MySQL, Android, HTML, CSS, Typescript, Swift, SAP ">
+            </div>
+            <!--/div-->
+          </form>
+        </div>
+
+        <div class="col-6 col-sm-6">
+          <form>
+            <div class="form-group">
+              <label for="exampleInputEmail1">Nome do Projeto</label>
+              <input type="text" class="form-control" disabled id="exampleInputEmail1" aria-describedby="emailHelp" placeholder="Integra UNICESUMAR">
+            </div>
+            <div class="form-group">
+              <label for="habilidades">Habilidades Necessárias</label>
+              <input type="text" class="form-control" disabled id="habilidadesNecessarias" placeholder="Java,Spring FrameWork, HTML, CSS, Javascript, Typescript">
+            </div>
+            <div class="form-group">
+              <label for="habilidades">Tempo Médio de Experiêncio Necessário</label>
+              <input type="text" class="form-control" disabled id="habilidadesNecessarias" placeholder="2 Anos">
+            </div>
+          </form>
           </div>
-          <div class="form-group">
-            <label for="habilidades">Habilidades Necessárias</label>
-            <input type="text" class="form-control" disabled id="habilidadesNecessarias" placeholder="Java,Spring FrameWork, HTML, CSS, Javascript, Typescript">
-          </div>
-          <div class="form-group">
-            <label for="habilidades">Tempo Médio de Experiêncio Necessário</label>
-            <input type="text" class="form-control" disabled id="habilidadesNecessarias" placeholder="2 Anos">
-          </div>
-        </form>
+      </div>
 
       </div>
       <div class="modal-footer">
