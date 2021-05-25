@@ -8,3 +8,14 @@ color: black;
   background-color: cornsilk;
 
 }
+.user-info-container{
+align-content: flex-end;
+}
+
+.title{
+  text-align: center;
+}
+.junbotron-spec{
+  margin-top: 200px;
+}
+
