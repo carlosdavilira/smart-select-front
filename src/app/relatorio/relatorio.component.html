@@ -1,0 +1,76 @@
+<div class="jumbotron jumbotron-fluid">
+  <div class="container">
+    <h1 class="display-4 title">Relatório de Alocação de Colaboradores</h1>
+    <p class="lead title">Criação de usuários para o sistema</p>
+  </div>
+</div>
+<div class="container">
+  <form>
+    <div class="form-group">
+    <label for="nomeUsuario" class=" alert alert-warning texto-relatorio d-flex justify-content-center bd-highlight mb-3">Selecione o projeto para realizar a combineção com as habilidades dos colaboradores</label>
+    <div class="form-group container-espc">
+    <label for="nomeUsuario">Projeto:</label>
+    <div class="btn-group btn-group-espec">
+      <button type="button" class="btn btn dropdown-toggle text-project" data-toggle="dropdown" aria-haspopup="true" aria-expanded="false">
+        Integra UNICESUMAR
+      </button>
+      <div class="dropdown-menu dropdown-menu-right">
+        <button class="dropdown-item"  type="button">Integra UNICESUMAR</button>
+        <button class="dropdown-item"  type="button">Conecta Maringá</button>
+        <button class="dropdown-item"  type="button">Smart City Laguna</button>
+        <button class="dropdown-item"  type="button">Integração Pague Menos e Extra Farma</button>
+        <button class="dropdown-item"  type="button">Localiza EcoPontos</button>
+        </div>
+    </div>
+    <div class="modal-footer">
+      <button type="button" class="btn btn-success float-right" data-dismiss="modal" (click)="showResults()">Processar relatório</button>
+    </div>
+    </div>
+  </div>
+  </form>
+</div>
+
+<div class="container container-espc">
+  <label for="nomeUsuario" class=" alert alert-success texto-relatorio d-flex justify-content-center bd-highlight mb-3">Foram encontrados os colaboradores compatíveis com o projeto selecionado</label>
+  <ul class="list-group list-espec">
+    <li class="list-group-item" data-toggle="modal" data-target="#exampleModal" data-toggle="modal" data-target="#exampleModal">Carlos David Lira</li>
+    <li class="list-group-item">Francisco Alves da Silva</li>
+    <li class="list-group-item">Rener Souza</li>
+    <li class="list-group-item">João Portela de Assis</li>
+    <li class="list-group-item">Estenio Vargas Garcia</li>
+  </ul>
+</div>
+
+<div class="modal fade" id="exampleModal" tabindex="-1" role="dialog" aria-labelledby="exampleModalLabel" aria-hidden="true">
+  <div class="modal-dialog modal-lg" role="document">
+    <div class="modal-content">
+      <div class="modal-header">
+        <h5 class="modal-title" id="exampleModalLabel">Detalhes Colaborador x Projeto</h5>
+        <button type="button" class="close" data-dismiss="modal" aria-label="Close">
+          <span aria-hidden="true">&times;</span>
+        </button>
+      </div>
+      <div class="modal-body">
+        <!-- Conteúdo Modal-->
+        <form>
+          <div class="form-group">
+            <label for="exampleInputEmail1">Nome do Projeto</label>
+            <input type="text" class="form-control" disabled id="exampleInputEmail1" aria-describedby="emailHelp" placeholder="Integra UNICESUMAR">
+          </div>
+          <div class="form-group">
+            <label for="habilidades">Habilidades Necessárias</label>
+            <input type="text" class="form-control" disabled id="habilidadesNecessarias" placeholder="Java,Spring FrameWork, HTML, CSS, Javascript, Typescript">
+          </div>
+          <div class="form-group">
+            <label for="habilidades">Tempo Médio de Experiêncio Necessário</label>
+            <input type="text" class="form-control" disabled id="habilidadesNecessarias" placeholder="2 Anos">
+          </div>
+        </form>
+
+      </div>
+      <div class="modal-footer">
+        <button type="button" class="btn btn-secondary" data-dismiss="modal">Fechar</button>
+      </div>
+    </div>
+  </div>
+</div>
