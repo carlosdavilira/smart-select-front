@@ -1,11 +1,16 @@
 import { BrowserModule } from '@angular/platform-browser';
 import { NgModule } from '@angular/core';
+import { HttpClientModule } from '@angular/common/http';
 
 import { AppComponent } from './app.component';
 import { ProjetoComponent } from './projeto/projeto.component';
 import { ColaboradorComponent } from './colaborador/colaborador.component';
 import { UsuarioComponent } from './usuario/usuario.component';
 import { RelatorioComponent } from './relatorio/relatorio.component';
+import { ProjetoService } from './services/projeto-service';
+
+
+
 
 @NgModule({
   declarations: [
@@ -13,12 +18,13 @@ import { RelatorioComponent } from './relatorio/relatorio.component';
     ProjetoComponent,
     ColaboradorComponent,
     UsuarioComponent,
-    RelatorioComponent
+    RelatorioComponent,
   ],
   imports: [
-    BrowserModule
+    BrowserModule,
+    HttpClientModule
   ],
-  providers: [],
+  providers: [ProjetoService],
   bootstrap: [AppComponent]
 })
 export class AppModule { }
