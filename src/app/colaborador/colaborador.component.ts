@@ -1,4 +1,6 @@
-import { Component, OnInit } from '@angular/core';
+import { Subject, Subscription } from 'rxjs';
+import { Component, OnDestroy, OnInit } from '@angular/core';
+import { ActivatedRoute } from '@angular/router';
 import  Colaborador from '../models/Colaborador'
 import Experiencias from '../models/Experiencias';
 
@@ -7,16 +9,32 @@ import Experiencias from '../models/Experiencias';
   templateUrl: './colaborador.component.html',
   styleUrls: ['./colaborador.component.css']
 })
-export class ColaboradorComponent implements OnInit {
+export class ColaboradorComponent implements OnInit, OnDestroy {
 
-  constructor() { }
+  constructor( private route: ActivatedRoute) { }
+
   consultMode = true;
   private showExp = true;
   private ListExperiencias = [];
+  private mode = '';
   private Colaborador;
+  private destroySensors$: Subject<void> = new Subject<void>();
+  modeInscription: Subscription;
+
+
 
 
   ngOnInit() {
+
+    this.modeInscription =  this.route.params.subscribe(params => {
+      this.mode = params['mode'];
+      this.changeMode();
+    })
+
+  }
+
+  ngOnDestroy(){
+    this.modeInscription.unsubscribe();
   }
 
   addExperiencia(){
@@ -28,6 +46,17 @@ export class ColaboradorComponent implements OnInit {
 
   }
 
+  }
+
+
+  private changeMode(){
+    if(this.mode === 'create'){
+      this.consultMode = false;
+    }
+    else{
+      this.consultMode = true;
+
+    }
   }
 
 }

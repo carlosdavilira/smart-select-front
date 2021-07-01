@@ -6,10 +6,11 @@ import { RelatorioComponent } from "./relatorio/relatorio.component";
 import { UsuarioComponent } from "./usuario/usuario.component";
 
 const APP_ROUTES: Routes = [
-  { path: 'projeto', component: ProjetoComponent },
-  { path: 'usuario', component: UsuarioComponent },
-  { path: 'colaborador', component: ColaboradorComponent },
-  { path: 'rel', component: RelatorioComponent }
+  { path: 'projeto/:mode', component: ProjetoComponent },
+  { path: 'usuario/:mode', component: UsuarioComponent },
+  { path: 'colaborador/:mode', component: ColaboradorComponent },
+  { path: 'rel', component: RelatorioComponent },
+  { path: 'doc', component: RelatorioComponent }
 ];
 
 export const routing: ModuleWithProviders = RouterModule.forRoot(APP_ROUTES);
