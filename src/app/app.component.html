@@ -1,15 +1,15 @@
 <nav class="navbar navbar-expand-lg navbar-light bg-light">
-  <a class="navbar-brand" class="top-smart-select-text" href="#">Smart Select</a>
+  <a class="navbar-brand" class="top-smart-select-text" router-link="/">Smart Select</a>
 
-  <a class="navbar-brand" href="#Home">Home</a>
-  <a class="navbar-brand" href="#Usuarios">Usuários</a>
+  <a class="navbar-brand" routerLink="/">Home</a>
+  <a class="navbar-brand" routerLink="/usuario">Usuários</a>
   <div class="navbar-brand dropdown">
     <a class="navbar-brand dropdown-toggle" href="#" id="navbarDropdown" role="button" data-toggle="dropdown" aria-haspopup="true" aria-expanded="false">
       Projeto
     </a>
     <div class="dropdown-menu" aria-labelledby="dropdownMenuButton">
-      <a class="dropdown-item" href="#CadastroProjeto">Cadastro de Projetos</a>
-      <a class="dropdown-item" href="#ConsultaProjeto">Consulta de Projeto</a>
+      <a class="dropdown-item" routerLink="/projeto">Cadastro de Projetos</a>
+      <a class="dropdown-item" routerLink="/projeto">Consulta de Projeto</a>
     </div>
   </div>
   <div class="navbar-brand dropdown">
@@ -17,20 +17,20 @@
       Colaborador
     </a>
     <div class="dropdown-menu" aria-labelledby="dropdownMenuButton">
-      <a class="dropdown-item" href="#CadastroColaborador">Cadastro de Colaborador</a>
-      <a class="dropdown-item" href="#ConsultaProjeto">Cadastro de Colaborador</a>
+      <a class="dropdown-item" routerLink="/projeto">Cadastro de Colaborador</a>
+      <a class="dropdown-item" routerLink="/projeto">Cadastro de Colaborador</a>
     </div>
   </div>
   <div class="navbar-brand dropdown">
-    <a class="navbar-brand dropdown-toggle" href="#" id="navbarDropdown" role="button" data-toggle="dropdown" aria-haspopup="true" aria-expanded="false">
+    <a class="navbar-brand dropdown-toggle" id="navbarDropdown" role="button" data-toggle="dropdown" aria-haspopup="true" aria-expanded="false">
       Documentações
     </a>
     <div class="dropdown-menu" aria-labelledby="dropdownMenuButton">
-      <a class="dropdown-item" href="#documentacao">Documentação do Sistema</a>
+      <a class="dropdown-item" routerLink="/documentacao">Documentação do Sistema</a>
       <div class="dropdown-divider"></div>
     </div>
   </div>
-  <a class="navbar-brand" href="#relatorio">Relatório Colaborador x Projeto</a>
+  <a class="navbar-brand" routerLink="/relatorio">Relatório Colaborador x Projeto</a>
 
   <button class="navbar-toggler" type="button" data-toggle="collapse" data-target="#navbarSupportedContent" aria-controls="navbarSupportedContent" aria-expanded="false" aria-label="Toggle navigation">
     <span class="navbar-toggler-icon"></span>
@@ -55,7 +55,8 @@
     <p class="lead title"> Selecione uma opção para iniciar</p>
   </div>
 </!--div-->
-<app-projeto  href="#Projeto"> </app-projeto>
+<!--app-projeto  href="#Projeto"> </app-projeto-->
 <!--app-colaborador></!--app-colaborador-->
 <!--app-usuario></!--app-usuario-->
 <!--app-relatorio></!--app-relatorio-->
+<router-outlet></router-outlet>

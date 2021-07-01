@@ -8,8 +8,14 @@ import { ColaboradorComponent } from './colaborador/colaborador.component';
 import { UsuarioComponent } from './usuario/usuario.component';
 import { RelatorioComponent } from './relatorio/relatorio.component';
 import { ProjetoService } from './services/projeto-service';
-
-
+import { RouterModule, Routes } from '@angular/router';
+import { routing } from './app.routing';
+/*const routes: Routes = [
+  { path: 'projeto', component: ProjetoComponent },
+  { path: 'usuario', component: UsuarioComponent },
+  { path: 'colaborador', component: ColaboradorComponent },
+  { path: 'rel', component: RelatorioComponent }
+];*/
 
 
 @NgModule({
@@ -22,7 +28,9 @@ import { ProjetoService } from './services/projeto-service';
   ],
   imports: [
     BrowserModule,
-    HttpClientModule
+    HttpClientModule,
+    routing,
+    RouterModule
   ],
   providers: [ProjetoService],
   bootstrap: [AppComponent]
