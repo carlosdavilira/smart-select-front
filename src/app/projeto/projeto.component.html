@@ -6,20 +6,22 @@
   </div>
 </div>
 <div class="container">
-  <form>
+  <form  [formGroup]="projectForm" (onSubmit)="onSubmit()">
     <div class="form-group">
       <label for="exampleInputEmail1">Nome do Projeto</label>
-      <input type="text" class="form-control" id="exampleInputEmail1" aria-describedby="emailHelp" placeholder="Entre com o nome do projeto">
+      <input type="text" [ngClass]="{'is-invalid': submitted && hasError('descricao')}" class="form-control" formControlName="descricao" id="exampleInputEmail1" aria-describedby="emailHelp" placeholder="Entre com o nome do projeto" required>
     </div>
     <div class="form-group">
       <label for="habilidades">Habilidades Necessárias</label>
-      <input type="text" class="form-control" id="habilidadesNecessarias" placeholder="Digite as habilidades necessárias separadas por vírgurla. Exemplo: Java, HTML, CSS, Java script">
+      <input type="text" [ngClass]="{'is-invalid': submitted && hasError('habilidades')}" class="form-control" formControlName="habilidades" id="habilidadesNecessarias" placeholder="Digite as habilidades necessárias separadas por vírgurla. Exemplo: Java, HTML, CSS, Java script">
     </div>
     <div class="form-group">
       <label for="habilidades">Tempo Médio de Experiêncio Necessário</label>
-      <input type="text" class="form-control" id="habilidadesNecessarias" placeholder="Digite o tempo médio de experiência nas habilidades">
+      <input type="text" [ngClass]="{'is-invalid': submitted && hasError('tempos')}" class="form-control" formControlName="tempos"  id="habilidadesNecessarias" placeholder="Digite o tempo médio de experiência nas habilidades">
     </div>
-    <button type="submit" class="btn btn-primary float-right">Salvar</button>
+    <button type="submit" class="btn btn-light float-right" (click)="onCancel()">Cancelar</button>
+    <button type="submit" class="btn btn-primary float-right" (click)="onSubmit()">Salvar</button>
+
   </form>
 </div>
 </div>
@@ -40,16 +42,16 @@
       </span>
     </div>
     <ul class="list-group list-espec">
-      <li class="list-group-item" data-toggle="modal" data-target="#exampleModal">Integra UNICESUMAR</li>
-      <li class="list-group-item" >Conecta Maringá</li>
+      <li class="list-group-item" data-toggle="modal" data-target="#projectDetails" *ngFor="let project of projectList; index as i;"> {{project.descricao}} </li>
+      <!--li class="list-group-item" >Conecta Maringá</!--li>
       <li class="list-group-item">Smart City Laguna</li>
       <li class="list-group-item">Integração Pague Menos e Extra Farma</li>
-      <li class="list-group-item">Localiza EcoPontos</li>
+      <li-- class="list-group-item">Localiza EcoPontos</li-->
     </ul>
   </div>
 
 <!-- Modal -->
-<div class="modal fade" id="exampleModal" tabindex="-1" role="dialog" aria-labelledby="exampleModalLabel" aria-hidden="true">
+<div class="modal fade" id="projectDetails" tabindex="-1" role="dialog" aria-labelledby="exampleModalLabel" aria-hidden="true">
   <div class="modal-dialog modal-lg" role="document">
     <div class="modal-content">
       <div class="modal-header">
@@ -60,18 +62,18 @@
       </div>
       <div class="modal-body">
         <!-- Conteúdo Modal-->
-        <form>
+        <form class="need-validation" [formGroup]="projectForm" (onSubmit)="onSubmit()">
           <div class="form-group">
             <label for="exampleInputEmail1">Nome do Projeto</label>
-            <input type="text" class="form-control" disabled id="exampleInputEmail1" aria-describedby="emailHelp" placeholder="Integra UNICESUMAR">
+            <input type="text" class="form-control" formControlName="descricao" disabled id="exampleInputEmail1" aria-describedby="emailHelp" placeholder="Integra UNICESUMAR">
           </div>
           <div class="form-group">
             <label for="habilidades">Habilidades Necessárias</label>
-            <input type="text" class="form-control" disabled id="habilidadesNecessarias" placeholder="Java,Spring FrameWork, HTML, CSS, Javascript, Typescript">
+            <input type="text" class="form-control" formControlName="habilidades" disabled id="habilidadesNecessarias" placeholder="Java,Spring FrameWork, HTML, CSS, Javascript, Typescript">
           </div>
           <div class="form-group">
             <label for="habilidades">Tempo Médio de Experiêncio Necessário</label>
-            <input type="text" class="form-control" disabled id="habilidadesNecessarias" placeholder="2 Anos">
+            <input type="text" class="form-control" formControlName="tempos" disabled id="habilidadesNecessarias" placeholder="2 Anos">
           </div>
         </form>
 
