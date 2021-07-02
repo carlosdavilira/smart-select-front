@@ -1,7 +1,7 @@
 
 export default class Projeto   {
 
-  id = '';
+  codigo = null;
   descricao = '';
   habilidades = '';
   tempos = '';

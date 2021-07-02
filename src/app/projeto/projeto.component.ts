@@ -1,9 +1,11 @@
-import { ProjetoService } from './../services/projeto-service';
 import { Component, OnDestroy, OnInit } from '@angular/core';
+import { FormBuilder, FormGroup } from '@angular/forms';
+import { ProjetoService } from './../services/projeto-service';
 import Projeto from '../models/Projeto';
 import { takeUntil } from 'rxjs/operators';
 import { Subject, Subscription } from 'rxjs';
 import { ActivatedRoute } from '@angular/router';
+
 
 @Component({
   selector: 'app-projeto',
@@ -14,27 +16,35 @@ export class ProjetoComponent implements OnInit, OnDestroy {
 
   consultMode = true;
   private mode = '';
-  private destroySensors$: Subject<void> = new Subject<void>();
+  private destroyProjects$: Subject<void> = new Subject<void>();
   projectList:any;
+  filtersProjects = [];
   modeInscription: Subscription;
+  projectSelected:any;
+
+  // -- Forms
+  projectForm: FormGroup;
+  submitted = false;
+
 
   constructor(private projetoService: ProjetoService,
-              private route: ActivatedRoute) { }
+              private route: ActivatedRoute,
+              private formBuilder: FormBuilder) { }
 
   ngOnInit() {
+
+    this.fillForm();
+
    this.modeInscription =  this.route.params.subscribe(params => {
       this.mode = params['mode'];
       this.changeMode();
     })
     console.log('PROJETO COMPONENT -ON INIT');
     let projeto = new Projeto();
-    projeto.id = '1';
+    projeto.codigo = '1';
     if(this.consultMode){
-      this.doGetProjetos(projeto);
+      this.doListProjects();
     }
-
-
-
   }
 
   ngOnDestroy(){
@@ -51,17 +61,73 @@ export class ProjetoComponent implements OnInit, OnDestroy {
     }
   }
 
-  async doGetProjetos(projeto: Projeto){
+  async doGetProjets(projeto: Projeto){
 
-    this.projetoService.get(projeto).pipe(takeUntil(this.destroySensors$)).subscribe(
+    this.projetoService.get(projeto).pipe(takeUntil(this.destroyProjects$)).subscribe(
         projectList => {
           debugger;
           console.log(projectList);
           return this.projectList = projectList
         },
     );
+}
+
+async doListProjects(){
+
+this.projetoService.list().pipe(takeUntil(this.destroyProjects$)).subscribe(
+  projectList => {
+    debugger;
+    console.log(projectList);
+    return this.projectList = projectList
+  },);
 
 }
 
+fillForm(){
+  this.projectForm = this.formBuilder.group({
+    id:  '',
+    descricao : '',
+    habilidades : '',
+    tempos : ''
+  })
+}
+
+onSubmit(){
+  this.submitted = true;
+  console.log(this.projectForm.value);
+  if(this.projectForm.valid){
+    this.doSaveProject();
+  }
+}
+
+onCancel(){
+  this.submitted = false;
+  this.projectForm.reset();
+}
+
+hasError(field){
+  return this.projectForm.get(field).errors;
+}
+
+formToDTO(): Projeto{
+  let projeto = new Projeto();
+  projeto.descricao = this.projectForm.value['descricao'];
+  projeto.habilidades = this.projectForm.value['habilidades'];
+  projeto.tempos = this.projectForm.value['tempos'];
+  return projeto;
+}
+
+async doSaveProject(){
+  this.projetoService.save(this.formToDTO()).pipe(takeUntil(this.destroyProjects$)).subscribe(
+    projectList => {
+      debugger;
+      console.log(projectList);
+      return this.projectList = projectList
+    },);
+//  this.projetoService.save(this.formToDTO());
+}
+
+
 
 }
+

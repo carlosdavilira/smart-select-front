@@ -19,5 +19,13 @@ export class ProjetoService {
         //return result;
     }
 
+    list(): Observable<Projeto[]> {
+      return  this.projetoBack.list();
+    }
+
+    save(projeto: Projeto): Observable<Projeto> {
+      return  this.projetoBack.post(projeto);
+    }
+
 
 }
