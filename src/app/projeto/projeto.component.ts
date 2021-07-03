@@ -18,12 +18,14 @@ export class ProjetoComponent implements OnInit, OnDestroy {
   private mode = '';
   private destroyProjects$: Subject<void> = new Subject<void>();
   projectList:any;
-  filtersProjects = [];
+  projectsFiltered = [];
+  filterProject = '';
   modeInscription: Subscription;
   projectSelected:any;
 
   // -- Forms
   projectForm: FormGroup;
+  filterForm: FormGroup;
   submitted = false;
 
 
@@ -89,7 +91,11 @@ fillForm(){
     descricao : '',
     habilidades : '',
     tempos : ''
-  })
+  });
+
+  this.filterForm = this.formBuilder.group({
+    filterProject: ''
+  });
 }
 
 onSubmit(){
@@ -127,7 +133,20 @@ async doSaveProject(){
 //  this.projetoService.save(this.formToDTO());
 }
 
+filterProjects(){
 
-
+  if(this.projectList.length === 0 || this.filterProject === undefined || this.filterProject.trim() === ''){
+      return this.projectList;
+  }
+  let filterLower = this.filterProject.toLowerCase();
+    return this.projectList.filter(
+    element => {
+      if (element['descricao'].toLowerCase().indexOf(filterLower) >= 0){
+        return true;
+      }
+      return false;
+    }
+  );
+}
 }
 
