@@ -35,18 +35,17 @@
   </div>
   <div class="container">
     <div class="input-group rounded">
-      <input type="search" class="form-control rounded" placeholder="Search" aria-label="Search"
-        aria-describedby="search-addon" />
-      <span class="input-group-text border-0 search-button" id="search-addon">
-        <i class="fa fa-camera-retro"></i>
-      </span>
+      <form [formGroup]="filterForm" class="input-group rounded">
+        <input type="search" class="form-control rounded" [(ngModel)]="filterProject" (keypress)="filterProjects($event)" formControlName="filterProject" placeholder="Search" aria-label="Search"
+          aria-describedby="search-addon" />
+        <span class="input-group-text border-0 search-button" id="search-addon">
+          <i class="fa fa-camera-retro"></i>
+        </span>
+    </form>
     </div>
     <ul class="list-group list-espec">
-      <li class="list-group-item" data-toggle="modal" data-target="#projectDetails" *ngFor="let project of projectList; index as i;"> {{project.descricao}} </li>
-      <!--li class="list-group-item" >Conecta Maringá</!--li>
-      <li class="list-group-item">Smart City Laguna</li>
-      <li class="list-group-item">Integração Pague Menos e Extra Farma</li>
-      <li-- class="list-group-item">Localiza EcoPontos</li-->
+      <li class="list-group-item" data-toggle="modal" data-target="#projectDetails" *ngFor="let project of filterProjects(); index as i;"> {{project.descricao}} </li>
+
     </ul>
   </div>
 
