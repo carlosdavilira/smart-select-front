@@ -6,6 +6,12 @@
   </div>
 </div>
 <div class="container">
+  <div *ngIf='requestStatus !== null' [ngClass]="requestStatus ? 'alert alert-primary alert-success fade show messages' : 'alert alert-danger alert-dismissible fade show messages'" role="alert">
+    {{ requestMessage }}
+   <button type="button" class="close" data-dismiss="alert" aria-label="Close">
+     <span aria-hidden="true">&times;</span>
+   </button>
+ </div>
   <form  [formGroup]="projectForm" (onSubmit)="onSubmit()">
     <div class="form-group">
       <label for="exampleInputEmail1">Nome do Projeto</label>
@@ -35,7 +41,19 @@
   </div>
   <div class="container">
     <div class="input-group rounded">
-      <form [formGroup]="filterForm" class="input-group rounded">
+      <div class="d-flex justify-content-center">
+        <div class="spinner-border" role="status">
+          <span class="sr-only">Loading...</span>
+        </div>
+      </div>
+
+      <div [ngClass]="hasResults ? 'alert alert-primary alert-dismissible fade show messages' : 'alert alert-warning alert-dismissible fade show messages'" role="alert">
+         {{requestMessage}}
+        <button type="button" class="close" data-dismiss="alert" aria-label="Close">
+          <span aria-hidden="true">&times;</span>
+        </button>
+      </div>
+      <form class="input-group rounded">
         <input type="search" class="form-control rounded" [(ngModel)]="filterProject" (keypress)="filterProjects($event)" formControlName="filterProject" placeholder="Search" aria-label="Search"
           aria-describedby="search-addon" />
         <span class="input-group-text border-0 search-button" id="search-addon">
@@ -44,7 +62,11 @@
     </form>
     </div>
     <ul class="list-group list-espec">
-      <li class="list-group-item" data-toggle="modal" data-target="#projectDetails" *ngFor="let project of filterProjects(); index as i;"> {{project.descricao}} </li>
+      <li class="list-group-item"  *ngFor="let project of filterProjects(); index as i;"> {{project.descricao}}
+        <button data-toggle="modal" data-target="#projectDetails" (click)="viewProject(project)"
+        class="btn btn-primary float-right">Editar</button>
+        <button (click)="deleteProject(project)"
+        class="btn btn-danger float-right">Excluir</button></li>
 
     </ul>
   </div>
@@ -61,24 +83,24 @@
       </div>
       <div class="modal-body">
         <!-- Conteúdo Modal-->
-        <form class="need-validation" [formGroup]="projectForm" (onSubmit)="onSubmit()">
+        <form class="need-validation" [formGroup]="editProjectForm" (onSubmit)="onSubmit()">
           <div class="form-group">
             <label for="exampleInputEmail1">Nome do Projeto</label>
-            <input type="text" class="form-control" formControlName="descricao" disabled id="exampleInputEmail1" aria-describedby="emailHelp" placeholder="Integra UNICESUMAR">
+            <input type="text" class="form-control" formControlName="descricao"  aria-describedby="emailHelp">
           </div>
           <div class="form-group">
             <label for="habilidades">Habilidades Necessárias</label>
-            <input type="text" class="form-control" formControlName="habilidades" disabled id="habilidadesNecessarias" placeholder="Java,Spring FrameWork, HTML, CSS, Javascript, Typescript">
+            <input type="text" class="form-control" formControlName="habilidades" >
           </div>
           <div class="form-group">
             <label for="habilidades">Tempo Médio de Experiêncio Necessário</label>
-            <input type="text" class="form-control" formControlName="tempos" disabled id="habilidadesNecessarias" placeholder="2 Anos">
+            <input type="text" class="form-control" formControlName="tempos"  >
           </div>
         </form>
 
       </div>
       <div class="modal-footer">
-        <button type="button" class="btn btn-secondary" data-dismiss="modal">Fechar</button>
+        <button type="button" class="btn btn-secondary" data-dismiss="modal" (click)="onCloseModal()">Fechar</button>
       </div>
     </div>
   </div>

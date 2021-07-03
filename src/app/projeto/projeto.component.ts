@@ -5,6 +5,7 @@ import Projeto from '../models/Projeto';
 import { takeUntil } from 'rxjs/operators';
 import { Subject, Subscription } from 'rxjs';
 import { ActivatedRoute } from '@angular/router';
+import Util from '../utils/util';
 
 
 @Component({
@@ -17,16 +18,22 @@ export class ProjetoComponent implements OnInit, OnDestroy {
   consultMode = true;
   private mode = '';
   private destroyProjects$: Subject<void> = new Subject<void>();
-  projectList:any;
+  projectList:any = [];
   projectsFiltered = [];
   filterProject = '';
   modeInscription: Subscription;
   projectSelected:any;
+  hasResults = false;
+
+  requestStatus = null;
+  requestMessage = '';
+
 
   // -- Forms
   projectForm: FormGroup;
-  filterForm: FormGroup;
+  editProjectForm: FormGroup;
   submitted = false;
+
 
 
   constructor(private projetoService: ProjetoService,
@@ -40,14 +47,13 @@ export class ProjetoComponent implements OnInit, OnDestroy {
    this.modeInscription =  this.route.params.subscribe(params => {
       this.mode = params['mode'];
       this.changeMode();
-    })
-    console.log('PROJETO COMPONENT -ON INIT');
-    let projeto = new Projeto();
-    projeto.codigo = '1';
+    });
+    // Find all projects when compononent initialize
     if(this.consultMode){
       this.doListProjects();
     }
   }
+
 
   ngOnDestroy(){
     this.modeInscription.unsubscribe();
@@ -61,6 +67,12 @@ export class ProjetoComponent implements OnInit, OnDestroy {
       this.consultMode = true;
 
     }
+
+    this.fillForm();
+    // When mode changes and it be edit Find all projects when compononent initialize
+    if(this.consultMode){
+      this.doListProjects();
+    }
   }
 
   async doGetProjets(projeto: Projeto){
@@ -68,6 +80,7 @@ export class ProjetoComponent implements OnInit, OnDestroy {
     this.projetoService.get(projeto).pipe(takeUntil(this.destroyProjects$)).subscribe(
         projectList => {
           debugger;
+          //this.fillForm();
           console.log(projectList);
           return this.projectList = projectList
         },
@@ -78,8 +91,8 @@ async doListProjects(){
 
 this.projetoService.list().pipe(takeUntil(this.destroyProjects$)).subscribe(
   projectList => {
-    debugger;
-    console.log(projectList);
+    this.hasResults = true;
+    this.getMessagens();
     return this.projectList = projectList
   },);
 
@@ -93,8 +106,11 @@ fillForm(){
     tempos : ''
   });
 
-  this.filterForm = this.formBuilder.group({
-    filterProject: ''
+  this.editProjectForm = this.formBuilder.group({
+    id:  '',
+    descricao : '',
+    habilidades : '',
+    tempos : ''
   });
 }
 
@@ -125,10 +141,12 @@ formToDTO(): Projeto{
 
 async doSaveProject(){
   this.projetoService.save(this.formToDTO()).pipe(takeUntil(this.destroyProjects$)).subscribe(
-    projectList => {
+    project => {
       debugger;
-      console.log(projectList);
-      return this.projectList = projectList
+      console.log(project);
+      this.validRequestMessage(project);
+      this.onCancel();
+     // return this.projectList = projectList
     },);
 //  this.projetoService.save(this.formToDTO());
 }
@@ -148,5 +166,49 @@ filterProjects(){
     }
   );
 }
+
+getMessagens(){
+  debugger;
+  if(this.hasResults){
+    this.requestMessage = Util.successMessage();
+  }
+  else if(!this.hasResults){
+    this.requestMessage = Util.errorNotFound();
+  }
+}
+
+viewProject(project){
+  this.editProjectForm = this.formBuilder.group({
+    id:  project['codigo'],
+    descricao : project['descricao'],
+    habilidades : project['habilidades'],
+    tempos : project['tempos']
+  });
+
+}
+
+deleteProject(project){
+
+}
+
+onCloseModal(){
+  //this.fillForm();
+}
+
+validRequestMessage(requestResult){
+  debugger
+  if(requestResult){
+    this.requestMessage = Util.successSaveMessage();
+  }
+  else{
+    this.requestMessage = Util.errorSaveMessage();
+  }
+  this.requestStatus = true;
+  console.log(this.requestMessage);
+
+}
+
+
+
 }
 

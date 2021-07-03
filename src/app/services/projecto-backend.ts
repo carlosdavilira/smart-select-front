@@ -28,7 +28,7 @@ export class ProjetoBackEnd {
              let projeto = new Projeto()
             projeto.codigo = res['codigo'];
             projeto.descricao = res['descricao'];
-            projeto.habilidades = res['habilidade'];
+            projeto.habilidades = res['habilidades'];
             projeto.tempos = res['tempos'];
             return projeto;
             }),
@@ -83,7 +83,7 @@ private doList(projects): any {
     let projeto = new Projeto()
     projeto.codigo = element['codigo'];
     projeto.descricao = element['descricao'];
-    projeto.habilidades = element['habilidade'];
+    projeto.habilidades = element['habilidades'];
     projeto.tempos = element['tempos'];
     listProjects.push(projeto);
   });
