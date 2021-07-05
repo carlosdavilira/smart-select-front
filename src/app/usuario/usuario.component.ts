@@ -98,7 +98,6 @@ export class UsuarioComponent implements OnInit {
   }
 
   validPass(user){
-    console.log(user.value['senha'].toLowerCase().match(user.value['confirmaSenha'].toLowerCase()));
     return (user.value['senha'].toLowerCase().match(user.value['confirmaSenha'].toLowerCase()) === null);
   }
 
