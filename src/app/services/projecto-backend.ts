@@ -37,20 +37,11 @@ export class ProjetoBackEnd {
   }
 
   list(): Observable<Projeto[]> {
-    //return this.http.get(`${Util.getUrl()}projeto/${projeto.id}`,
     let projectList = [];
     return this.http.get(`${Util.getUrl()}/projeto`,
         { headers: this.headers },
     ).pipe(
         map((res) => {
-          debugger;
-
-         /* let projeto = new Projeto()
-          projeto.id = res['codigo'];
-          projeto.descricao = res['descricao'];
-          projeto.habilidades = res['habilidade'];
-          projeto.tempos = res['tempos'];*/
-
           return this.doList(res);
           }),
         share(),
