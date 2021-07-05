@@ -1,0 +1,7 @@
+export enum TypeMessage {
+  INVALID,
+  INVALID_PASSWORD,
+  INVALID_USER_NAME,
+  INVALID_REQUEST,
+  REQUEST_OK,
+}

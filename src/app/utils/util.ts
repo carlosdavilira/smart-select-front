@@ -20,4 +20,8 @@ export default class Util {
     return 'Houve um problema com sua requisição. Tente novamente mais tarde.'
   }
 
+  static errorInvalidPassword(){
+    return 'As senhas digitadas não coincidem. Gentileza, corrigir os campos: Senha e Confirma Senha.'
+  }
+
 }
