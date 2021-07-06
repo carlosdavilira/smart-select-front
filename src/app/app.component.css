@@ -19,3 +19,9 @@ align-content: flex-end;
   margin-top: 200px;
 }
 
+img.avatar {
+  max-width: 100%;
+  height: auto;
+  margin: auto;
+}
+

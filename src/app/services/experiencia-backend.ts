@@ -53,8 +53,8 @@ private doList(workers): any {
     experience.nomeEmpresa = res['nomeEmpresa'];
     experience.cargo = res['cargo'];
     experience.atividadesRealizadas = res['atividadesRealizadas'];
-    experience.dataInicio = res['dataInicio'];
-    experience.dataFim = res['dataFim'];
+    experience.inicio = res['inicio'];
+    experience.fim = res['fim'];
     listExperiences.push(experience);
   });
 

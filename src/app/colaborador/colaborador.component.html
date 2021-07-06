@@ -18,55 +18,56 @@
     </div>
     <div class="form-group">
       <label for="nomeColaborador">Nome Completo</label>
-      <input type="text" class="form-control" id="nomeColaborador" aria-describedby="nomeColaborador" placeholder="Entre com o nome do projeto">
+      <input type="text" class="form-control" id="nomeColaborador" formControlName="nome" aria-describedby="nomeColaborador" placeholder="Entre com o nome do projeto">
     </div>
     <div class="form-group">
       <label for="projetoAtual">Projeto Atual</label>
-      <input type="text" class="form-control" id="projetoAtual" placeholder="Digite o nome do projeto que você está atualmente alocado">
+      <input type="text" class="form-control" id="projetoAtual" formControlName="projetoAtual" placeholder="Digite o nome do projeto que você está atualmente alocado">
     </div>
     <div class="form-group">
       <label for="nomeGerente">Nome do Gerente Atual</label>
-      <input type="text" class="form-control" id="nomeGerente" placeholder="Digite o nome do seu atual gerente ou responsável">
+      <input type="text" class="form-control" id="nomeGerente" formControlName="gerenteAtual" placeholder="Digite o nome do seu atual gerente ou responsável">
     </div>
     <div class="form-group">
       <label for="habilidadesNecessarias">Habilidades</label>
-      <input type="text" class="form-control" id="habilidadesNecessarias" placeholder="Digite as habilidades que você possui separadas por vírgurla. Exemplo: Java, HTML, CSS, Java script">
+      <input type="text" class="form-control" id="habilidadesNecessarias" formControlName="habilidades" placeholder="Digite as habilidades que você possui separadas por vírgurla. Exemplo: Java, HTML, CSS, Java script">
     </div>
-
+  </form>
     <div class="form-group">
 
       <label class="sub-title">- Experiências Anteriores</label>
-      <button type="submit" class="btn btn-outline-success float-right" (click)="addExperiencia()">Adicionar + </button>
-
       <div *ngIf="showExp" >
-      <!--div *ngFor="user of ListExperiencias"-->
+      <div *ngFor="let exp of experienciesForm; index as i;">
+      <form [formGroup]="exp">
       <div class="form-group">
         <label for="nomeEmpresa">Nome da Empresa</label>
-        <input type="text" class="form-control" id="nomeEmpresa" aria-describedby="nomeEmpresa" placeholder="Entre com o nome da Empresa que você trabalhou anteriormente">
+        <input type="text" class="form-control" id="nomeEmpresa" formControlName="nomeEmpresa" aria-describedby="nomeEmpresa" placeholder="Entre com o nome da Empresa que você trabalhou anteriormente">
       </div>
       <div class="form-group">
         <label for="nomeCargo">Cargo</label>
-        <input type="text" class="form-control" id="nomeCargo" placeholder="Digite o cargo que você ocupava">
+        <input type="text" class="form-control" id="nomeCargo" formControlName="cargo" placeholder="Digite o cargo que você ocupava">
       </div>
       <div class="form-group">
         <label for="atividadesRealizadas">Atividades Realizadas</label>
-        <input type="text" class="form-control" id="atividadesRealizadas" placeholder="Digite as atividades que você executava">
+        <input type="text" class="form-control" id="atividadesRealizadas" formControlName="atividadesRealizadas" placeholder="Digite as atividades que você executava">
       </div>
       <div class="form-group">
         <label for="dataInicio">Data Início</label>
-        <input type="text" class="form-control" id="dataInicio" placeholder="Digite em Formato XX/XX/XXXX ex.: 12/12/2021">
+        <input type="text" class="form-control" id="dataInicio" formControlName="inicio" placeholder="Digite em Formato XX/XX/XXXX ex.: 12/12/2021">
       </div>
       <div class="form-group">
         <label for="dataFim">Data Fim</label>
-        <input type="text" class="form-control" id="dataFim" placeholder="Digite em Formato XX/XX/XXXX ex.: 12/12/2021">
+        <input type="text" class="form-control" id="dataFim" formControlName="fim" placeholder="Digite em Formato XX/XX/XXXX ex.: 12/12/2021">
       </div>
+      <hr class="dashed">
+      </form>
     </div>
     </div>
 
-    <!--/div-->
+    </div>
+    <button type="submit" class="btn btn-outline-success float-right" (click)="addExperiencia()">Adicionar + </button>
+    <button type="submit" class="btn btn-primary float-right" (click)="onSubmit()">Salvar</button>
 
-    <button type="submit" class="btn btn-primary float-right">Salvar</button>
-  </form>
 </div>
 
 </div>
@@ -106,7 +107,7 @@
       </div>
       <div class="modal-body">
         <!-- Conteúdo Modal-->
-        <form>
+        <form [formGroup]="editWorkerForm">
           <div class="form-group">
             <label class="sub-title">- Informações Gerais</label>
           </div>

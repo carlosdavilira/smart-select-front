@@ -3,6 +3,7 @@ export default class Experiencias {
   nomeEmpresa = '';
   cargo = '';
   atividadesRealizadas = '';
-  dataInicio = '';
-  dataFim = '';
+  inicio = '';
+  fim = '';
+  codigoColaborador = null;
 }

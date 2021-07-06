@@ -24,4 +24,8 @@ export default class Util {
     return 'As senhas digitadas não coincidem. Gentileza, corrigir os campos: Senha e Confirma Senha.'
   }
 
+  static errorInvalidCredentials(){
+    return 'Login ou senha incorretos.'
+  }
+
 }
