@@ -1,7 +1,7 @@
 import { TypeMessage } from './../models/TypeMessage';
 import { UsuarioBackEnd } from './../services/usuario-backend';
 import { Subject } from 'rxjs';
-import { Component, OnInit } from '@angular/core';
+import { Component, OnDestroy, OnInit } from '@angular/core';
 import { FormBuilder, FormGroup } from '@angular/forms';
 import { ActivatedRoute } from '@angular/router';
 import Usuario from '../models/Usuario';
@@ -14,7 +14,7 @@ import Util from '../utils/util';
   templateUrl: './usuario.component.html',
   styleUrls: ['./usuario.component.css']
 })
-export class UsuarioComponent implements OnInit {
+export class UsuarioComponent implements OnInit, OnDestroy {
 
     // -- Forms
     userForm: FormGroup;
@@ -29,6 +29,9 @@ export class UsuarioComponent implements OnInit {
   constructor(private projetoService: UsuarioService,
     private route: ActivatedRoute,
     private formBuilder: FormBuilder) { }
+  ngOnDestroy(): void {
+    this.destroyUser$.unsubscribe();
+  }
 
   ngOnInit() {
 

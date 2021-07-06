@@ -5,6 +5,10 @@ import  Colaborador from '../models/Colaborador'
 import Experiencias from '../models/Experiencias';
 import { FormBuilder, FormGroup } from '@angular/forms';
 import { ColaboradorService } from '../services/colaborador-service';
+import { TypeMessage } from '../models/TypeMessage';
+import Util from '../utils/util';
+import { ExperienceService } from '../services/experiencia-service';
+import { takeUntil } from 'rxjs/operators';
 
 @Component({
   selector: 'app-colaborador',
@@ -13,7 +17,9 @@ import { ColaboradorService } from '../services/colaborador-service';
 })
 export class ColaboradorComponent implements OnInit, OnDestroy {
 
-  constructor( private projetoService: ColaboradorService,
+  constructor(
+    private workerService: ColaboradorService,
+    private experienceService: ExperienceService,
     private route: ActivatedRoute,
     private formBuilder: FormBuilder) { }
 
@@ -22,18 +28,21 @@ export class ColaboradorComponent implements OnInit, OnDestroy {
   private ListExperiencias = [];
   private mode = '';
   private Colaborador;
-  private destroySensors$: Subject<void> = new Subject<void>();
   modeInscription: Subscription;
 
     // -- Forms
     workerForm: FormGroup;
+    experienciesForm:FormGroup[] = [];
     editWorkerForm:FormGroup;
 
-    private destroyUser$: Subject<void> = new Subject<void>();
+    private destroyWorker$: Subject<void> = new Subject<void>();
+    private destroyExperience$: Subject<void>[] = [];
+
     requestMessage = '';
     submitted = false;
     requestStatus = null;
     hasResults = false;
+    lastIndexExperience = 0;
 
 
   ngOnInit() {
@@ -42,15 +51,18 @@ export class ColaboradorComponent implements OnInit, OnDestroy {
       this.mode = params['mode'];
       this.changeMode();
     })
+    this.fillForm();
+    this.fillFormExperiencias(this.lastIndexExperience);
 
   }
 
   ngOnDestroy(){
     this.modeInscription.unsubscribe();
+    this.destroyExperience$.forEach( exp => exp.unsubscribe());
   }
 
   fillForm(){
-    if(this.consultMode){
+    //if(this.consultMode){
       this.workerForm = this.formBuilder.group({
         nome: '',
         projetoAtual : '',
@@ -58,8 +70,8 @@ export class ColaboradorComponent implements OnInit, OnDestroy {
         habilidades : '',
         experiencias : []
     });
-  }
-    else{
+  //}
+   // else{
       this.editWorkerForm = this.formBuilder.group({
         nome : '',
         projetoAtual : '',
@@ -67,8 +79,18 @@ export class ColaboradorComponent implements OnInit, OnDestroy {
         habilidades : '',
         experiencias : []
     });
-    }
+  //  }
+  }
 
+  fillFormExperiencias(index){
+    this.experienciesForm.push(this.formBuilder.group({
+      nomeEmpresa : '',
+      cargo : '',
+      atividadesRealizadas : '',
+      inicio : null,
+      fim : null,
+    })
+    );
   }
 
   formToDTO(form: FormGroup): Colaborador{
@@ -77,8 +99,25 @@ export class ColaboradorComponent implements OnInit, OnDestroy {
     worker.projetoAtual = form.value['projetoAtual'];
     worker.gerenteAtual = form.value['gerenteAtual'];
     worker.habilidades = form.value['habilidades'];
-    worker.experiencias = form.value['experiencias'];
     return worker;
+  }
+
+  experiencesFormToDTO(forms: FormGroup[], codWorker): Experiencias[]{
+    let listExperiences = [];
+
+    forms.forEach(form => {
+    let experience = new Experiencias();
+    experience.nomeEmpresa = form.value['nomeEmpresa'];
+    experience.cargo = form.value['cargo'];
+    experience.atividadesRealizadas = form.value['atividadesRealizadas'];
+    experience.inicio = form.value['inicio'];
+    experience.fim = form.value['fim'];
+    experience.codigoColaborador = { codigo: codWorker };
+    listExperiences.push(experience);
+
+    });
+
+    return listExperiences;
   }
 
   onSubmit(){
@@ -95,23 +134,61 @@ export class ColaboradorComponent implements OnInit, OnDestroy {
     this.editWorkerForm.reset();
   }
 
-  addExperiencia(){
-    this.ListExperiencias.push(new Experiencias());
-    this.showExp = !this.showExp;
-  }
-
-  saveDataExperiencia(expIndice){{
-
-  }
-
+  addExperiencia(exp){
+    this.fillFormExperiencias(this.lastIndexExperience);
+    this.lastIndexExperience++;
+   // this.showExp = !this.showExp;
+    console.log('---------- VERIFICAÇÃO ----------');
+    console.log(this.workerForm);
+    console.log(this.experienciesForm);
   }
 
   async doSaveProject(){
+    this.workerService.save(this.formToDTO(this.workerForm)).pipe(takeUntil(this.destroyWorker$)).subscribe(
+      workerSaved => {
+        debugger;
+        console.log(workerSaved);
+        this.doSaveExperience(this.experiencesFormToDTO(this.experienciesForm, workerSaved.codigo));
+        console.log('------- RESTORNO WORKER SALVO --------');
+        console.log(workerSaved);
+        this.validRequestMessage(TypeMessage.REQUEST_OK);
+
+      },);
+  }
+
+  async doSaveExperience(listExperiences){
+    debugger;
+    listExperiences.forEach(element => {
+        this.destroyExperience$.push(new Subject<void>());
+    });
+    for(let i =0; i < listExperiences.length; i++){
+      this.experienceService.save(listExperiences[i]).pipe(takeUntil(this.destroyExperience$[i])).subscribe()
+      exp =>{
+        console.log('------- RESTORNO EXP SALVA --------');
+        console.log(exp);
+        this.onCancel();
+      }
+    }
 
   }
 
-  async doSaveExperience(){
 
+  validRequestMessage(requestResult){
+    debugger
+    if(requestResult === TypeMessage.REQUEST_OK){
+      this.requestMessage = Util.successSaveMessage();
+      this.requestStatus = true;
+    }
+    else if(requestResult === TypeMessage.INVALID_PASSWORD){
+      this.requestMessage =  Util.errorInvalidPassword();
+      this.requestStatus = false;
+    }
+    else if(requestResult === TypeMessage.INVALID_REQUEST){
+      this.requestMessage = Util.errorSaveMessage();
+      this.requestStatus = false;
+    }
+
+    console.log(this.requestMessage);
   }
 
 
@@ -124,6 +201,10 @@ export class ColaboradorComponent implements OnInit, OnDestroy {
       this.consultMode = true;
 
     }
+  }
+  private cleanValues(){
+      this.workerForm.reset();
+      this.experienciesForm.forEach(exp => exp.reset());
   }
 
 }

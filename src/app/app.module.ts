@@ -13,6 +13,8 @@ import { RelatorioComponent } from './relatorio/relatorio.component';
 import { ProjetoService } from './services/projeto-service';
 import { RouterModule, Routes } from '@angular/router';
 import { routing } from './app.routing';
+import { LoginComponent } from './login/login.component';
+import { AuthGuard } from './guards/auth-guard';
 /*const routes: Routes = [
   { path: 'projeto', component: ProjetoComponent },
   { path: 'usuario', component: UsuarioComponent },
@@ -28,6 +30,7 @@ import { routing } from './app.routing';
     ColaboradorComponent,
     UsuarioComponent,
     RelatorioComponent,
+    LoginComponent,
   ],
   imports: [
     BrowserModule,
@@ -37,7 +40,7 @@ import { routing } from './app.routing';
     ReactiveFormsModule,
     FormsModule
   ],
-  providers: [ProjetoService],
+  providers: [ProjetoService, AuthGuard],
   bootstrap: [AppComponent]
 })
 export class AppModule { }

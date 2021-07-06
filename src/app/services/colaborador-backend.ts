@@ -30,7 +30,6 @@ export class ColaboradorBackEnd {
             worker.projetoAtual = res['projetoAtual'];
             worker.gerenteAtual = res['gerenteAtual'];
             worker.habilidades = res['habilidades'];
-            worker.experiencias = res['experiencias'];
             return worker;
             }),
           share(),
@@ -46,12 +45,11 @@ post(worker: Colaborador): Observable<Colaborador> {
       map((res) => {
         debugger;
         let worker = new Colaborador()
-        worker.codigo = res['codigo'];
-        worker.nome = res['nome'];
-        worker.projetoAtual = res['projetoAtual'];
-        worker.gerenteAtual = res['gerenteAtual'];
-        worker.habilidades = res['habilidades'];
-        worker.experiencias = res['experiencias'];
+        worker.codigo = res['body']['codigo'];
+        worker.nome = res['body']['nome'];
+        worker.projetoAtual = res['body']['projetoAtual'];
+        worker.gerenteAtual = res['body']['gerenteAtual'];
+        worker.habilidades = res['body']['habilidades'];
         return worker;
         }),
       share(),
@@ -79,7 +77,6 @@ private doList(workers): any {
     worker.projetoAtual = res['projetoAtual'];
     worker.gerenteAtual = res['gerenteAtual'];
     worker.habilidades = res['habilidades'];
-    worker.experiencias = res['experiencias'];
     listWorkers.push(worker);
   });
 

@@ -14,12 +14,12 @@ export class ColaboradorService {
         private colaboradorBack: ColaboradorBackEnd,
     ) { }
 
-    get(usuario: Colaborador): Observable<Colaborador> {
-        return  this.colaboradorBack.get(usuario);
+    get(worker: Colaborador): Observable<Colaborador> {
+        return  this.colaboradorBack.get(worker);
     }
 
-    save(usuario: Colaborador): Observable<Colaborador> {
-      return  this.colaboradorBack.post(usuario);
+    save(worker: Colaborador): Observable<Colaborador> {
+      return  this.colaboradorBack.post(worker);
     }
 
     list(): Observable<Colaborador[]> {

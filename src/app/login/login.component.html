@@ -1,0 +1,25 @@
+<h1>Smart Select</h1>
+<form action="action_page.php" method="post">
+  <div class="imgcontainer">
+    <img src="../../assets/secure_login.png" alt="Avatar" class="avatar">
+  </div>
+
+  <div class="container">
+    <div *ngIf='requestStatus !== null' [ngClass]="requestStatus ? 'alert alert-primary alert-success fade show messages' : 'alert alert-danger alert-dismissible fade show messages'" role="alert">
+      {{ requestMessage }}
+      <span (click)="closeErrorRequest()" class="float-right bt-close-message">X</span>
+   </div>
+    <form [formGroup]="loginForm" (onSubmit)="doLogin()">
+    <label for="uname"><b>Usuário</b></label>
+    <input type="text" formControlName="usuario" placeholder="Entre com o nome de ususario" name="uname" required>
+
+    <label for="psw"><b>Senha</b></label>
+    <input type="password" formControlName="senha" placeholder="Entre com a senha" name="psw" required>
+  </form>
+    <button type="submit" class="btn btn-primary" (click)="doLogin()">Logar</button>
+    <label>
+      <input type="checkbox" checked="checked" name="remember"> Remember me
+    </label>
+
+  </div>
+</form>

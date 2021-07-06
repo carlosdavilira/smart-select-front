@@ -6,6 +6,7 @@ export default class Colaborador {
   projetoAtual = '';
   gerenteAtual = '';
   habilidades = '';
-  experiencias : Experiencias[] = [];
+  codigoUsuario = null;
+
 
 }

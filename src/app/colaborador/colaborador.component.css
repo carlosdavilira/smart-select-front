@@ -19,3 +19,8 @@
   width: 50px;
   height: 50px;
 }
+
+hr.dashed {
+  border-top: 3px solid #bbb;
+  margin-bottom: 30px;
+}

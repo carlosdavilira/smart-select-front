@@ -10,7 +10,7 @@ import Experiencias from '../models/Experiencias';
 @Injectable({
     providedIn: 'root',
 })
-export class ExperienciaService {
+export class ExperienceService {
 
     constructor(
         private experienciaBack: ExperienciaBackEnd,

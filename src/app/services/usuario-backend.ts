@@ -1,5 +1,5 @@
 import { HttpClient, HttpHeaders, HttpParams } from '@angular/common/http';
-import { Injectable } from '@angular/core';
+import { EventEmitter, Injectable } from '@angular/core';
 import { Observable } from 'rxjs';
 import { map, share } from 'rxjs/operators';
 import Usuario from '../models/Usuario';
@@ -17,6 +17,9 @@ export class UsuarioBackEnd {
     constructor(
         private http: HttpClient,
     ) { }
+    public showMenuEmitter = new EventEmitter<boolean>();
+    private userAutenticated = false;
+
 
     get(usuario: Usuario): Observable<Usuario> {
       return this.http.get(`${Util.getUrl()}/usuario/${usuario.codigo}`,
@@ -48,5 +51,33 @@ post(usuario: Usuario): Observable<Usuario> {
         }),
       share(),
   );
+}
+
+login(usuario: Usuario): Observable<Usuario> {
+  debugger;
+  return this.http.post(`${Util.getUrl()}/usuario/login`,
+      JSON.stringify(usuario),
+      { headers: this.headers },
+  ).pipe(
+      map((res) => {
+        debugger;
+        if(res){
+        this.showMenuEmitter.emit(true);
+        this.userAutenticated = true;
+
+        let user = new Usuario()
+        user.codigo = res['codigo'];
+        user.usuario = res['usuario'];
+        return user;
+      }
+      this.userAutenticated = false;
+      this.showMenuEmitter.emit(false);
+      return null;
+        }),
+      share(),
+  );
+}
+public isUserAutenticated(){
+  return this.userAutenticated;
 }
 }
