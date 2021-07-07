@@ -27,23 +27,27 @@ export class ColaboradorComponent implements OnInit, OnDestroy {
   private showExp = true;
   private ListExperiencias = [];
   private mode = '';
+  filterWorker = '';
   private Colaborador;
   modeInscription: Subscription;
 
     // -- Forms
     workerForm: FormGroup;
+    viewWorkerForm: FormGroup;
     experienciesForm:FormGroup[] = [];
     editWorkerForm:FormGroup;
 
     private destroyWorker$: Subject<void> = new Subject<void>();
     private destroyExperience$: Subject<void>[] = [];
+    destroyGetExperience$: Subject<void> = new Subject<void>();
 
     requestMessage = '';
     submitted = false;
     requestStatus = null;
     hasResults = false;
     lastIndexExperience = 0;
-
+    workerList:any = [];
+    experienceListView = [];
 
   ngOnInit() {
 
@@ -53,6 +57,10 @@ export class ColaboradorComponent implements OnInit, OnDestroy {
     })
     this.fillForm();
     this.fillFormExperiencias(this.lastIndexExperience);
+    if(this.consultMode){
+      this.doListWorkers();
+    }
+
 
   }
 
@@ -77,6 +85,14 @@ export class ColaboradorComponent implements OnInit, OnDestroy {
         habilidades : '',
         experiencias : []
     });
+
+    this.viewWorkerForm= this.formBuilder.group({
+      nome : '',
+      projetoAtual : '',
+      gerenteAtual : '',
+      habilidades : '',
+      experiencias : []
+  });
   }
 
   fillFormExperiencias(index){
@@ -189,9 +205,70 @@ export class ColaboradorComponent implements OnInit, OnDestroy {
 
     }
   }
+
+  async doListWorkers(){
+    this.workerService.list().pipe(takeUntil(this.destroyWorker$)).subscribe(
+      workerList => {
+        this.hasResults = true;
+          console.log(workerList);
+          workerList.forEach(worker => this.doListExperience(worker));
+        this.getMessagens();
+        return this.workerList = workerList
+      },);
+    }
+
+   getMessagens(){
+      if(this.hasResults){
+        this.requestMessage = Util.successMessage();
+      }
+      else if(!this.hasResults){
+        this.requestMessage = Util.errorNotFound();
+      }
+    }
+
   private cleanValues(){
       this.workerForm.reset();
       this.experienciesForm.forEach(exp => exp.reset());
   }
+
+
+  filterWorkers(){
+
+  if(this.workerList.length === 0 || this.filterWorker === undefined || this.filterWorker.trim() === ''){
+      return this.workerList;
+  }
+  let filterLower = this.filterWorker.toLowerCase();
+    return this.workerList.filter(
+    element => {
+      if (element['nome'].toLowerCase().indexOf(filterLower) >= 0){
+        return true;
+      }
+      return false;
+    }
+  );
+}
+
+viewWorker(worker){
+  debugger;
+  this.viewWorkerForm.get('nome').setValue(worker.nome);
+  this.viewWorkerForm.get('projetoAtual').setValue(worker.projetoAtual);
+  this.viewWorkerForm.get('gerenteAtual').setValue(worker.gerenteAtual);
+  this.viewWorkerForm.get('habilidades').setValue(worker.habilidades);
+}
+
+async doListExperience(worker){
+   this.experienceService.list(worker).pipe(takeUntil(this.destroyGetExperience$)).subscribe(
+    experienceList => {
+    this.hasResults = true;
+    this.getMessagens();
+    debugger;
+   // console.log(experienceList);
+    return this.experienceListView = this.experienceListView.concat(experienceList);
+    },);
+        }
+
+deleteWorker(worker){
+
+}
 
 }

@@ -80,18 +80,16 @@
   </div>
   <div class="container">
     <div class="input-group rounded">
-      <input type="search" class="form-control rounded" placeholder="Search" aria-label="Search"
+      <input type="search" class="form-control rounded" [(ngModel)]="filterWorker" placeholder="Search" aria-label="Search"
         aria-describedby="search-addon" />
-      <span class="input-group-text border-0 search-button" id="search-addon">
-        <i class="fa fa-camera-retro"></i>
-      </span>
     </div>
     <ul class="list-group list-espec">
-      <li class="list-group-item" data-toggle="modal" data-target="#exampleModal">Carlos David Lira</li>
-      <li class="list-group-item">Francisco Alves da Silva</li>
-      <li class="list-group-item">Rener Souza</li>
-      <li class="list-group-item">João Portela de Assis</li>
-      <li class="list-group-item">Estenio Vargas Garcia</li>
+      <li class="list-group-item" data-toggle="modal"  *ngFor="let worker of filterWorkers(); index as i;" data-target="#exampleModal">{{worker.nome}}
+        <button data-toggle="modal" data-target="#projectDetails" (click)="viewWorker(worker)"
+        class="btn btn-primary float-right">Editar</button>
+        <button (click)="deleteWorker(worker)"
+        class="btn btn-danger float-right">Excluir</button></li>
+
     </ul>
   </div>
 
@@ -106,26 +104,26 @@
         </button>
       </div>
       <div class="modal-body">
-        <!-- Conteúdo Modal-->
-        <form [formGroup]="editWorkerForm">
+        <!-- Conteúdo Modal VIEW-->
+        <form [formGroup]="viewWorkerForm">
           <div class="form-group">
-            <label class="sub-title">- Informações Gerais</label>
+            <label class="sub-title">- Informações Gerais </label>
           </div>
           <div class="form-group">
             <label for="nomeColaborador">Nome Completo</label>
-            <input type="text" disabled class="form-control" id="nomeColaborador" aria-describedby="nomeColaborador" placeholder="Carlos David Lira">
+            <input type="text" disabled class="form-control" id="nomeColaborador" aria-describedby="nome" formControlName="nome">
           </div>
           <div class="form-group">
             <label for="projetoAtual">Projeto Atual</label>
-            <input type="text" disabled class="form-control" id="projetoAtual" placeholder="Smart Select">
+            <input type="text" disabled class="form-control" id="projetoAtual" formControlName="projetoAtual">
           </div>
           <div class="form-group">
             <label for="nomeGerente">Nome do Gerente Atual</label>
-            <input type="text" disabled class="form-control" id="nomeGerente" placeholder="Rafael Alves Florindo">
+            <input type="text" disabled class="form-control" id="nomeGerente" formControlName="gerenteAtual">
           </div>
           <div class="form-group">
             <label for="habilidadesNecessarias">Habilidades</label>
-            <input type="text" disabled class="form-control" id="habilidadesNecessarias" placeholder="Java, Angular, MySQL, Android, HTML, CSS, Typescript, Swift, SAP ">
+            <input type="text" disabled class="form-control" id="habilidadesNecessarias" formControlName="habilidades">
           </div>
 
           <div class="form-group">
