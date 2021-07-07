@@ -6,6 +6,7 @@ Para executar esse projeto em modo de desenvolvimento é necessário ter instala
 Seguir os passos:
 - Após baixar o projeto, deve-se executar o npm install, afim de baixar as dependências do projeto.
 - Após essa etapada deve-ser utilizar o comando "ng serve" para rodar a aplicação na porta 4200.
+- O projeto será acessível no enredeço: http://localhost:4200/
 
 Outros requerimentos:
 Ter a porta 4200 disponível.
