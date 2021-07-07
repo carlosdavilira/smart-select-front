@@ -48,7 +48,6 @@ export class RelatorioComponent implements OnInit, OnDestroy {
   }
 
   showResults(){
-    debugger;
     this.results = true;
     let workersCompatible = [];
     let project = this.projectSelected;
@@ -104,7 +103,6 @@ export class RelatorioComponent implements OnInit, OnDestroy {
   async doListProjects(){
     this.projetoService.list().pipe(takeUntil(this.destroyProjects$)).subscribe(
       projectList => {
-        debugger;
         this.hasResults = true;
         this.getMessagens();
         return this.projectList = projectList
@@ -115,9 +113,7 @@ export class RelatorioComponent implements OnInit, OnDestroy {
     async doListWorkers(){
       this.workerService.list().pipe(takeUntil(this.destroyWorker$)).subscribe(
         workerList => {
-          debugger;
           this.hasResults = true;
-          console.log('------------ WORKER LIST --------------');
             console.log(workerList);
           workerList.forEach(worker =>{
             this.doListExperience(worker);
@@ -131,10 +127,8 @@ export class RelatorioComponent implements OnInit, OnDestroy {
       async doListExperience(worker){
         this.experienceService.list(worker).pipe(takeUntil(this.destroyExperience$)).subscribe(
           experienceList => {
-            debugger;
             this.hasResults = true;
             this.getMessagens();
-            console.log('------------ EXPERIENCE LIST --------------');
             console.log(experienceList);
             let test = this.experienceList.concat(experienceList);
             return this.experienceList = this.experienceList.concat(experienceList);
@@ -142,7 +136,6 @@ export class RelatorioComponent implements OnInit, OnDestroy {
         }
 
     getMessagens(){
-      debugger;
       if(this.hasResults){
         this.requestMessage = Util.successMessage();
       }

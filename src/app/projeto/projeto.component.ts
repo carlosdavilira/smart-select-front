@@ -69,7 +69,6 @@ export class ProjetoComponent implements OnInit, OnDestroy {
     }
 
     this.fillForm();
-    // When mode changes and it be edit Find all projects when compononent initialize
     if(this.consultMode){
       this.doListProjects();
     }
@@ -79,8 +78,6 @@ export class ProjetoComponent implements OnInit, OnDestroy {
 
     this.projetoService.get(projeto).pipe(takeUntil(this.destroyProjects$)).subscribe(
         projectList => {
-          debugger;
-          //this.fillForm();
           console.log(projectList);
           return this.projectList = projectList
         },
@@ -142,13 +139,10 @@ formToDTO(): Projeto{
 async doSaveProject(){
   this.projetoService.save(this.formToDTO()).pipe(takeUntil(this.destroyProjects$)).subscribe(
     project => {
-      debugger;
       console.log(project);
       this.validRequestMessage(project);
       this.onCancel();
-     // return this.projectList = projectList
     },);
-//  this.projetoService.save(this.formToDTO());
 }
 
 filterProjects(){
@@ -168,7 +162,7 @@ filterProjects(){
 }
 
 getMessagens(){
-  debugger;
+  ;
   if(this.hasResults){
     this.requestMessage = Util.successMessage();
   }

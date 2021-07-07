@@ -25,7 +25,6 @@ export class UsuarioService {
     }
 
     login(usuario: Usuario): Observable<Usuario> {
-    debugger;
     return this.usuarioBack.login(usuario);
   }
 }
