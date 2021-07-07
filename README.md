@@ -1,5 +1,17 @@
 # SmartSelectFront
 
+Para executar esse projeto em modo de desenvolvimento é necessário ter instalado.
+- NodeJS
+
+Seguir os passos:
+- Após baixar o projeto, deve-se executar o npm install, afim de baixar as dependências do projeto.
+- Após essa etapada deve-ser utilizar o comando "ng serve" para rodar a aplicação na porta 4200.
+
+Outros requerimentos:
+Ter a porta 4200 disponível.
+
+--------------------
+
 This project was generated with [Angular CLI](https://github.com/angular/angular-cli) version 8.3.23.
 
 ## Development server
