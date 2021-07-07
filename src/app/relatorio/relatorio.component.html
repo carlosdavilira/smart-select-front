@@ -5,21 +5,18 @@
   </div>
 </div>
 <div class="container">
-  <form>
+  <form  [formGroup]="projectForm">
     <div class="form-group">
     <label for="nomeUsuario" class=" alert alert-warning texto-relatorio d-flex justify-content-center bd-highlight mb-3">Selecione o projeto para realizar a combinação com as habilidades dos colaboradores</label>
     <div class="form-group container-espc">
     <label for="nomeUsuario">Projeto:</label>
     <div class="btn-group btn-group-espec">
       <button type="button" class="btn btn dropdown-toggle text-project" data-toggle="dropdown" aria-haspopup="true" aria-expanded="false">
-        Integra UNICESUMAR
+      {{ projectSelected.descricao }}
       </button>
       <div class="dropdown-menu dropdown-menu-right">
-        <button class="dropdown-item"  type="button">Integra UNICESUMAR</button>
-        <button class="dropdown-item"  type="button">Conecta Maringá</button>
-        <button class="dropdown-item"  type="button">Smart City Laguna</button>
-        <button class="dropdown-item"  type="button">Integração Pague Menos e Extra Farma</button>
-        <button class="dropdown-item"  type="button">Localiza EcoPontos</button>
+        <button class="dropdown-item" *ngFor="let project of projectList; index as i;"  (click)="onSelectProject(project)"  type="button">{{project.descricao}}</button>
+
         </div>
     </div>
     <div class="modal-footer">
@@ -35,11 +32,7 @@
 <div class="container container-espc" *ngIf="results">
   <label for="nomeUsuario" class=" alert alert-success texto-relatorio d-flex justify-content-center bd-highlight mb-3">Foram encontrados os colaboradores compatíveis com o projeto selecionado</label>
   <ul class="list-group list-espec">
-    <li class="list-group-item" data-toggle="modal" data-target="#exampleModal" data-toggle="modal" data-target="#exampleModal">Carlos David Lira</li>
-    <li class="list-group-item">Francisco Alves da Silva</li>
-    <li class="list-group-item">Rener Souza</li>
-    <li class="list-group-item">João Portela de Assis</li>
-    <li class="list-group-item">Estenio Vargas Garcia</li>
+    <li class="list-group-item" data-toggle="modal" (click)="ViewWorkerByProject(worker)" *ngFor="let worker of workersRankedByProject; index as i;" data-target="#exampleModal" data-toggle="modal" data-target="#exampleModal">{{worker.colaborador.nome}}</li>
   </ul>
 </div>
 
@@ -56,40 +49,40 @@
         <!-- Conteúdo Modal-->
         <div class="row">
         <div class="col-6 col-sm-6 modal-left-side">
-          <form>
+          <form [formGroup]="workerExperience">
             <div class="form-group">
               <label for="nomeColaborador">Nome Completo</label>
-              <input type="text" disabled class="form-control" id="nomeColaborador" aria-describedby="nomeColaborador" placeholder="Carlos David Lira">
+              <input type="text" disabled class="form-control" id="nomeColaborador"   formControlName="nome" aria-describedby="nomeColaborador" placeholder="Carlos David Lira">
             </div>
             <div class="form-group">
               <label for="projetoAtual">Projeto Atual</label>
-              <input type="text" disabled class="form-control" id="projetoAtual" placeholder="Smart Select">
+              <input type="text" disabled class="form-control" id="projetoAtual"  formControlName="projetoAtual" >
             </div>
             <div class="form-group">
               <label for="nomeGerente">Nome do Gerente Atual</label>
-              <input type="text" disabled class="form-control" id="nomeGerente" placeholder="Rafael Alves Florindo">
+              <input type="text" disabled class="form-control" id="nomeGerente" formControlName="nomeGerente">
             </div>
             <div class="form-group">
               <label for="habilidadesNecessarias">Habilidades</label>
-              <input type="text" disabled class="form-control" id="habilidadesNecessarias" placeholder="Java, Angular, MySQL, Android, HTML, CSS, Typescript, Swift, SAP ">
+              <input type="text" disabled class="form-control" id="habilidades" formControlName="habilidades">
             </div>
             <!--/div-->
           </form>
         </div>
 
         <div class="col-6 col-sm-6">
-          <form>
+          <form [formGroup]="workerExperience">
             <div class="form-group">
               <label for="exampleInputEmail1">Nome do Projeto</label>
-              <input type="text" class="form-control" disabled id="exampleInputEmail1" aria-describedby="emailHelp" placeholder="Integra UNICESUMAR">
+              <input type="text" class="form-control" disabled id="exampleInputEmail1" formControlName="nomeProjeto" aria-describedby="emailHelp">
             </div>
             <div class="form-group">
               <label for="habilidades">Habilidades Necessárias</label>
-              <input type="text" class="form-control" disabled id="habilidadesNecessarias" placeholder="Java,Spring FrameWork, HTML, CSS, Javascript, Typescript">
+              <input type="text" class="form-control" disabled id="habilidadesNecessarias" formControlName="habilidadesNecessaria">
             </div>
             <div class="form-group">
               <label for="habilidades">Tempo Médio de Experiêncio Necessário</label>
-              <input type="text" class="form-control" disabled id="habilidadesNecessarias" placeholder="2 Anos">
+              <input type="text" class="form-control" disabled id="habilidadesNecessarias" formControlName="tempoMedio" >
             </div>
           </form>
           </div>

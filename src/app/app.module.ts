@@ -15,14 +15,6 @@ import { RouterModule, Routes } from '@angular/router';
 import { routing } from './app.routing';
 import { LoginComponent } from './login/login.component';
 import { AuthGuard } from './guards/auth-guard';
-/*const routes: Routes = [
-  { path: 'projeto', component: ProjetoComponent },
-  { path: 'usuario', component: UsuarioComponent },
-  { path: 'colaborador', component: ColaboradorComponent },
-  { path: 'rel', component: RelatorioComponent }
-];*/
-
-
 @NgModule({
   declarations: [
     AppComponent,

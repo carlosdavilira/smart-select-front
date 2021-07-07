@@ -25,6 +25,7 @@ export class ExperienciaBackEnd {
           { headers: this.headers },
       ).pipe(
           map((res) => {
+            debugger;
             return this.doList(res);
             }),
           share(),
@@ -55,6 +56,7 @@ private doList(workers): any {
     experience.atividadesRealizadas = res['atividadesRealizadas'];
     experience.inicio = res['inicio'];
     experience.fim = res['fim'];
+    experience.codigoColaborador= res['codigoColaborador'];
     listExperiences.push(experience);
   });
 

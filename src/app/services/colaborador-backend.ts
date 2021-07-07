@@ -69,7 +69,7 @@ list(): Observable<Colaborador[]> {
 
 private doList(workers): any {
   let listWorkers = [];
-
+  debugger;
   workers.forEach(res => {
     let worker = new Colaborador()
     worker.codigo = res['codigo'];
