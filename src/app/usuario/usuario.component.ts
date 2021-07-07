@@ -75,7 +75,6 @@ export class UsuarioComponent implements OnInit, OnDestroy {
   async doSaveProject(){
     this.projetoService.save(this.formToDTO()).pipe(takeUntil(this.destroyUser$)).subscribe(
       user => {
-        debugger;
         console.log(user);
         this.validRequestMessage(TypeMessage.REQUEST_OK);
         this.onCancel();
@@ -83,7 +82,6 @@ export class UsuarioComponent implements OnInit, OnDestroy {
   }
 
   validRequestMessage(requestResult){
-    debugger
     if(requestResult === TypeMessage.REQUEST_OK){
       this.requestMessage = Util.successSaveMessage();
       this.requestStatus = true;
