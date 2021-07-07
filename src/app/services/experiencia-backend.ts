@@ -25,7 +25,6 @@ export class ExperienciaBackEnd {
           { headers: this.headers },
       ).pipe(
           map((res) => {
-            debugger;
             return this.doList(res);
             }),
           share(),
@@ -33,7 +32,6 @@ export class ExperienciaBackEnd {
   }
 
 post(experience: Experiencias): Observable<Experiencias[]> {
-  debugger;
   return this.http.post(`${Util.getUrl()}/experiencia`,
       JSON.stringify(experience),
       { headers: this.headers },

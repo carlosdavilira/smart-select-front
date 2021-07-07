@@ -47,7 +47,6 @@ export class LoginComponent implements OnInit, OnDestroy {
   async doLogin(){
     this.usuarioService.login(this.formToDTO()).pipe(takeUntil(this.destroyUser$)).subscribe(
       user => {
-        debugger;
         console.log(user);
         if(user){
           this.router.navigate(['/']);

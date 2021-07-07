@@ -62,7 +62,6 @@ export class ColaboradorComponent implements OnInit, OnDestroy {
   }
 
   fillForm(){
-    //if(this.consultMode){
       this.workerForm = this.formBuilder.group({
         nome: '',
         projetoAtual : '',
@@ -70,8 +69,7 @@ export class ColaboradorComponent implements OnInit, OnDestroy {
         habilidades : '',
         experiencias : []
     });
-  //}
-   // else{
+
       this.editWorkerForm = this.formBuilder.group({
         nome : '',
         projetoAtual : '',
@@ -79,7 +77,6 @@ export class ColaboradorComponent implements OnInit, OnDestroy {
         habilidades : '',
         experiencias : []
     });
-  //  }
   }
 
   fillFormExperiencias(index){
@@ -137,35 +134,25 @@ export class ColaboradorComponent implements OnInit, OnDestroy {
   addExperiencia(exp){
     this.fillFormExperiencias(this.lastIndexExperience);
     this.lastIndexExperience++;
-   // this.showExp = !this.showExp;
-    console.log('---------- VERIFICAÇÃO ----------');
-    console.log(this.workerForm);
-    console.log(this.experienciesForm);
   }
 
   async doSaveProject(){
     this.workerService.save(this.formToDTO(this.workerForm)).pipe(takeUntil(this.destroyWorker$)).subscribe(
       workerSaved => {
-        debugger;
         console.log(workerSaved);
         this.doSaveExperience(this.experiencesFormToDTO(this.experienciesForm, workerSaved.codigo));
-        console.log('------- RESTORNO WORKER SALVO --------');
-        console.log(workerSaved);
         this.validRequestMessage(TypeMessage.REQUEST_OK);
 
       },);
   }
 
   async doSaveExperience(listExperiences){
-    debugger;
     listExperiences.forEach(element => {
         this.destroyExperience$.push(new Subject<void>());
     });
     for(let i =0; i < listExperiences.length; i++){
       this.experienceService.save(listExperiences[i]).pipe(takeUntil(this.destroyExperience$[i])).subscribe()
       exp =>{
-        console.log('------- RESTORNO EXP SALVA --------');
-        console.log(exp);
         this.onCancel();
       }
     }

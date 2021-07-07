@@ -26,7 +26,6 @@ export class UsuarioBackEnd {
           { headers: this.headers },
       ).pipe(
           map((res) => {
-            debugger;
             let user = new Usuario()
             user.codigo = res['codigo'];
             user.usuario = res['descricao'];
@@ -37,13 +36,11 @@ export class UsuarioBackEnd {
   }
 
 post(usuario: Usuario): Observable<Usuario> {
-  debugger;
   return this.http.post(`${Util.getUrl()}/usuario`,
       JSON.stringify(usuario),
       { headers: this.headers },
   ).pipe(
       map((res) => {
-        debugger;
         let user = new Usuario()
         user.codigo = res['codigo'];
         user.usuario = res['usuario'];

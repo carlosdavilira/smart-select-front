@@ -23,7 +23,6 @@ export class ColaboradorBackEnd {
           { headers: this.headers },
       ).pipe(
           map((res) => {
-            debugger;
             let worker = new Colaborador()
             worker.codigo = res['codigo'];
             worker.nome = res['nome'];
@@ -37,13 +36,11 @@ export class ColaboradorBackEnd {
   }
 
 post(worker: Colaborador): Observable<Colaborador> {
-  debugger;
   return this.http.post(`${Util.getUrl()}/colaborador`,
       JSON.stringify(worker),
       { headers: this.headers },
   ).pipe(
       map((res) => {
-        debugger;
         let worker = new Colaborador()
         worker.codigo = res['body']['codigo'];
         worker.nome = res['body']['nome'];
@@ -69,7 +66,6 @@ list(): Observable<Colaborador[]> {
 
 private doList(workers): any {
   let listWorkers = [];
-  debugger;
   workers.forEach(res => {
     let worker = new Colaborador()
     worker.codigo = res['codigo'];

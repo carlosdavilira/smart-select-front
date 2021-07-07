@@ -15,8 +15,6 @@ export class ProjetoService {
 
     get(projeto: Projeto): Observable<Projeto> {
         return  this.projetoBack.get(projeto);
-        //debugger;
-        //return result;
     }
 
     list(): Observable<Projeto[]> {
