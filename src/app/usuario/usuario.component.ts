@@ -1,3 +1,4 @@
+import { TypeAccess } from './../models/TypeAccess';
 import { TypeMessage } from './../models/TypeMessage';
 import { UsuarioBackEnd } from './../services/usuario-backend';
 import { Subject } from 'rxjs';
@@ -24,6 +25,8 @@ export class UsuarioComponent implements OnInit, OnDestroy {
     submitted = false;
     requestStatus = null;
     hasResults = false;
+    userTypes = ['SUPER', 'MANAGER','USER'];
+    userTypeSelected = '';
 
 
   constructor(private projetoService: UsuarioService,
@@ -50,7 +53,6 @@ export class UsuarioComponent implements OnInit, OnDestroy {
 
   onSubmit(){
     this.submitted = true;
-    console.log(this.userForm.value);
     if (this.validPass(this.userForm)){
       this.validRequestMessage(TypeMessage.INVALID_PASSWORD);
       return ;
@@ -69,13 +71,13 @@ export class UsuarioComponent implements OnInit, OnDestroy {
     let user = new Usuario();
     user.usuario = this.userForm.value['usuario'];
     user.senha = this.userForm.value['senha'];
+    user.tipo = this.userTypeSelected;
     return user;
   }
 
   async doSaveProject(){
     this.projetoService.save(this.formToDTO()).pipe(takeUntil(this.destroyUser$)).subscribe(
       user => {
-        console.log(user);
         this.validRequestMessage(TypeMessage.REQUEST_OK);
         this.onCancel();
       },);
@@ -94,12 +96,15 @@ export class UsuarioComponent implements OnInit, OnDestroy {
       this.requestMessage = Util.errorSaveMessage();
       this.requestStatus = false;
     }
-
-    console.log(this.requestMessage);
   }
 
   validPass(user){
     return (user.value['senha'].toLowerCase().match(user.value['confirmaSenha'].toLowerCase()) === null);
+  }
+
+  onSelectUserType(userType){
+    this.userTypeSelected = userType;
+
   }
 
 }

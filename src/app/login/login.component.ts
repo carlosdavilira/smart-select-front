@@ -1,3 +1,4 @@
+import { UsuarioBackEnd } from './../services/usuario-backend';
 import { UsuarioService } from './../services/usuario-service';
 import { Component, EventEmitter, OnDestroy, OnInit } from '@angular/core';
 import { FormBuilder, FormGroup } from '@angular/forms';
@@ -20,7 +21,7 @@ export class LoginComponent implements OnInit, OnDestroy {
   constructor(
     private route: ActivatedRoute,
     private formBuilder: FormBuilder,
-    private usuarioService: UsuarioService,
+    private loginService: UsuarioService,
     private router:Router
     ) { }
 
@@ -32,6 +33,7 @@ export class LoginComponent implements OnInit, OnDestroy {
 
   loginForm: FormGroup;
   private destroyUser$: Subject<void> = new Subject<void>();
+
 
   ngOnInit() {
     this.fillLogin();
@@ -45,9 +47,8 @@ export class LoginComponent implements OnInit, OnDestroy {
 
   }
   async doLogin(){
-    this.usuarioService.login(this.formToDTO()).pipe(takeUntil(this.destroyUser$)).subscribe(
+    this.loginService.login(this.formToDTO()).pipe(takeUntil(this.destroyUser$)).subscribe(
       user => {
-        console.log(user);
         if(user){
           this.router.navigate(['/']);
         }else{
@@ -83,8 +84,6 @@ export class LoginComponent implements OnInit, OnDestroy {
       this.requestMessage = Util.errorSaveMessage();
       this.requestStatus = false;
     }
-
-    console.log(this.requestMessage);
   }
 
   closeErrorRequest(){

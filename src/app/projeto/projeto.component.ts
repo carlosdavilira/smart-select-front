@@ -15,7 +15,7 @@ import Util from '../utils/util';
 })
 export class ProjetoComponent implements OnInit, OnDestroy {
 
-  consultMode = true;
+  consultMode = null;
   private mode = '';
   private destroyProjects$: Subject<void> = new Subject<void>();
   projectList:any = [];
@@ -45,6 +45,7 @@ export class ProjetoComponent implements OnInit, OnDestroy {
     this.fillForm();
 
    this.modeInscription =  this.route.params.subscribe(params => {
+     debugger;
       this.mode = params['mode'];
       this.changeMode();
     });
@@ -63,7 +64,7 @@ export class ProjetoComponent implements OnInit, OnDestroy {
     if(this.mode === 'create'){
       this.consultMode = false;
     }
-    else{
+    else if (this.mode === 'view'){
       this.consultMode = true;
 
     }
@@ -78,7 +79,6 @@ export class ProjetoComponent implements OnInit, OnDestroy {
 
     this.projetoService.get(projeto).pipe(takeUntil(this.destroyProjects$)).subscribe(
         projectList => {
-          console.log(projectList);
           return this.projectList = projectList
         },
     );
@@ -113,7 +113,6 @@ fillForm(){
 
 onSubmit(){
   this.submitted = true;
-  console.log(this.projectForm.value);
   if(this.projectForm.valid){
     this.doSaveProject();
   }
@@ -139,7 +138,6 @@ formToDTO(): Projeto{
 async doSaveProject(){
   this.projetoService.save(this.formToDTO()).pipe(takeUntil(this.destroyProjects$)).subscribe(
     project => {
-      console.log(project);
       this.validRequestMessage(project);
       this.onCancel();
     },);
@@ -198,8 +196,6 @@ validRequestMessage(requestResult){
     this.requestMessage = Util.errorSaveMessage();
   }
   this.requestStatus = true;
-  console.log(this.requestMessage);
-
 }
 
 

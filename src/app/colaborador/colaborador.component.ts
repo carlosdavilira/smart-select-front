@@ -1,3 +1,4 @@
+import { UsuarioBackEnd } from './../services/usuario-backend';
 import { Subject, Subscription } from 'rxjs';
 import { Component, OnDestroy, OnInit } from '@angular/core';
 import { ActivatedRoute } from '@angular/router';
@@ -21,7 +22,8 @@ export class ColaboradorComponent implements OnInit, OnDestroy {
     private workerService: ColaboradorService,
     private experienceService: ExperienceService,
     private route: ActivatedRoute,
-    private formBuilder: FormBuilder) { }
+    private formBuilder: FormBuilder,
+    private usuarioService: UsuarioBackEnd) { }
 
   consultMode = true;
   private showExp = true;
@@ -29,6 +31,7 @@ export class ColaboradorComponent implements OnInit, OnDestroy {
   private mode = '';
   filterWorker = '';
   private Colaborador;
+  currentUser = null;
   modeInscription: Subscription;
 
     // -- Forms
@@ -40,6 +43,7 @@ export class ColaboradorComponent implements OnInit, OnDestroy {
     private destroyWorker$: Subject<void> = new Subject<void>();
     private destroyExperience$: Subject<void>[] = [];
     destroyGetExperience$: Subject<void> = new Subject<void>();
+    destroyUserData$: Subject<void> = new Subject<void>();
 
     requestMessage = '';
     submitted = false;
@@ -60,6 +64,9 @@ export class ColaboradorComponent implements OnInit, OnDestroy {
     if(this.consultMode){
       this.doListWorkers();
     }
+    debugger;
+    this.currentUser = this.usuarioService.currentUserData();
+
 
 
   }
@@ -67,6 +74,7 @@ export class ColaboradorComponent implements OnInit, OnDestroy {
   ngOnDestroy(){
     this.modeInscription.unsubscribe();
     this.destroyExperience$.forEach( exp => exp.unsubscribe());
+    this.destroyUserData$.unsubscribe();
   }
 
   fillForm(){
@@ -112,6 +120,7 @@ export class ColaboradorComponent implements OnInit, OnDestroy {
     worker.projetoAtual = form.value['projetoAtual'];
     worker.gerenteAtual = form.value['gerenteAtual'];
     worker.habilidades = form.value['habilidades'];
+    worker.codigoUsuario = {codigo: this.currentUser['codigo']};
     return worker;
   }
 
@@ -135,7 +144,6 @@ export class ColaboradorComponent implements OnInit, OnDestroy {
 
   onSubmit(){
     this.submitted = true;
-    console.log(this.workerForm.value);
     if(this.workerForm.valid){
       this.doSaveProject();
     }
@@ -155,7 +163,6 @@ export class ColaboradorComponent implements OnInit, OnDestroy {
   async doSaveProject(){
     this.workerService.save(this.formToDTO(this.workerForm)).pipe(takeUntil(this.destroyWorker$)).subscribe(
       workerSaved => {
-        console.log(workerSaved);
         this.doSaveExperience(this.experiencesFormToDTO(this.experienciesForm, workerSaved.codigo));
         this.validRequestMessage(TypeMessage.REQUEST_OK);
 
@@ -190,8 +197,6 @@ export class ColaboradorComponent implements OnInit, OnDestroy {
       this.requestMessage = Util.errorSaveMessage();
       this.requestStatus = false;
     }
-
-    console.log(this.requestMessage);
   }
 
 
@@ -210,7 +215,6 @@ export class ColaboradorComponent implements OnInit, OnDestroy {
     this.workerService.list().pipe(takeUntil(this.destroyWorker$)).subscribe(
       workerList => {
         this.hasResults = true;
-          console.log(workerList);
           workerList.forEach(worker => this.doListExperience(worker));
         this.getMessagens();
         return this.workerList = workerList
@@ -249,7 +253,6 @@ export class ColaboradorComponent implements OnInit, OnDestroy {
 }
 
 viewWorker(worker){
-  debugger;
   this.viewWorkerForm.get('nome').setValue(worker.nome);
   this.viewWorkerForm.get('projetoAtual').setValue(worker.projetoAtual);
   this.viewWorkerForm.get('gerenteAtual').setValue(worker.gerenteAtual);
@@ -261,8 +264,6 @@ async doListExperience(worker){
     experienceList => {
     this.hasResults = true;
     this.getMessagens();
-    debugger;
-   // console.log(experienceList);
     return this.experienceListView = this.experienceListView.concat(experienceList);
     },);
         }

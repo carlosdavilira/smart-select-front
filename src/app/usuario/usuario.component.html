@@ -26,6 +26,16 @@
       <label for="senhaUsuarioConfirmacao">Confirmar Senha</label>
       <input type="text" class="form-control" id="senhaUsuarioConfirmacao" formControlName="confirmaSenha" placeholder="Confirmação da senha para acesso ao sistema">
     </div>
+    <label for="nomeUsuario">Tipo de Usuário:</label>
+    <div class="btn-group btn-group-espec">
+      <button type="button" class="btn btn dropdown-toggle text-project" data-toggle="dropdown" aria-haspopup="true" aria-expanded="false">
+      {{ userTypeSelected }}
+      </button>
+      <div class="dropdown-menu dropdown-menu-right">
+        <button class="dropdown-item" *ngFor="let userType of userTypes; index as i;"  (click)="onSelectUserType(userType)"  type="button">{{userType}}</button>
+
+        </div>
+    </div>
     <button type="submit" class="btn btn-light float-right" (click)="onCancel()">Cancelar</button>
     <button type="submit" class="btn btn-primary float-right" (click)="onSubmit()">Salvar</button>
   </form>

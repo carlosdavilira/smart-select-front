@@ -51,17 +51,18 @@ export class RelatorioComponent implements OnInit, OnDestroy {
     this.results = true;
     let workersCompatible = [];
     let project = this.projectSelected;
-    let workers = this.experienceList;
-    this.experienceList.forEach(exp => {
-        let hab = exp.codigoColaborador['habilidades'].split(',');
+    let workers = this.workerList;
+    workers.forEach(exp => {
+        let hab = exp['habilidades'].split(',');
         let haNec = project['habilidades'].split(',');
         let points = this.CheckAvaliableHab(hab, haNec);
         if(points > 0){
-          workersCompatible.push({colaborador: exp.codigoColaborador, projectCompatible:project, point: points});
+          workersCompatible.push({colaborador: exp.nome, projectCompatible:project, point: points});
         }
     });
+    debugger;
      this.workersRankedByProject = this.rankWorkers(workersCompatible);
-
+    debugger;
   }
 
   rankWorkers(workersCompatible){
@@ -105,6 +106,7 @@ export class RelatorioComponent implements OnInit, OnDestroy {
       projectList => {
         this.hasResults = true;
         this.getMessagens();
+        debugger;
         return this.projectList = projectList
       },);
 
@@ -114,7 +116,6 @@ export class RelatorioComponent implements OnInit, OnDestroy {
       this.workerService.list().pipe(takeUntil(this.destroyWorker$)).subscribe(
         workerList => {
           this.hasResults = true;
-            console.log(workerList);
           workerList.forEach(worker =>{
             this.doListExperience(worker);
           }
@@ -129,7 +130,6 @@ export class RelatorioComponent implements OnInit, OnDestroy {
           experienceList => {
             this.hasResults = true;
             this.getMessagens();
-            console.log(experienceList);
             let test = this.experienceList.concat(experienceList);
             return this.experienceList = this.experienceList.concat(experienceList);
           },);

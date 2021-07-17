@@ -1,4 +1,4 @@
-<div *ngIf="!consultMode">
+<div *ngIf="consultMode === false && consultMode !== null">
 <div class="jumbotron jumbotron-fluid">
   <div class="container">
     <h1 class="display-4 title">Cadastro de Projetos</h1>
@@ -32,7 +32,7 @@
 </div>
 </div>
 
-<div *ngIf="consultMode">
+<div *ngIf="consultMode === true && consultMode !== null">
   <div class="jumbotron jumbotron-fluid">
     <div class="container">
       <h1 class="display-4 title">Consulta de Projetos</h1>

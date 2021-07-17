@@ -19,6 +19,9 @@ export class UsuarioBackEnd {
     ) { }
     public showMenuEmitter = new EventEmitter<boolean>();
     private userAutenticated = false;
+    public user = new EventEmitter<any>();
+    private currentUser = null;
+
 
 
     get(usuario: Usuario): Observable<Usuario> {
@@ -51,13 +54,11 @@ post(usuario: Usuario): Observable<Usuario> {
 }
 
 login(usuario: Usuario): Observable<Usuario> {
-  debugger;
   return this.http.post(`${Util.getUrl()}/usuario/login`,
       JSON.stringify(usuario),
       { headers: this.headers },
   ).pipe(
       map((res) => {
-        debugger;
         if(res){
         this.showMenuEmitter.emit(true);
         this.userAutenticated = true;
@@ -65,6 +66,9 @@ login(usuario: Usuario): Observable<Usuario> {
         let user = new Usuario()
         user.codigo = res['codigo'];
         user.usuario = res['usuario'];
+        user.tipo = res['tipo'];
+        this.user.emit(user);
+        this.currentUser = user;
         return user;
       }
       this.userAutenticated = false;
@@ -76,5 +80,9 @@ login(usuario: Usuario): Observable<Usuario> {
 }
 public isUserAutenticated(){
   return this.userAutenticated;
+}
+
+currentUserData(){
+  return this.currentUser;
 }
 }

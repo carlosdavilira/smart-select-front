@@ -7,6 +7,7 @@ import { LoginComponent } from "./login/login.component";
 import { ProjetoComponent } from "./projeto/projeto.component";
 import { RelatorioComponent } from "./relatorio/relatorio.component";
 import { UsuarioComponent } from "./usuario/usuario.component";
+import { NotFoundComponent } from './not-found/not-found.component';
 
 const APP_ROUTES: Routes = [
   { path: '', component: ProjetoComponent, canActivate:[AuthGuard] },
@@ -19,7 +20,8 @@ const APP_ROUTES: Routes = [
   { path: 'colaborador/:mode', component: ColaboradorComponent, canActivate:[AuthGuard] },
   { path: 'rel', component: RelatorioComponent, canActivate:[AuthGuard] },
   { path: 'doc', component: RelatorioComponent, canActivate:[AuthGuard] },
-  { path: 'login', component: LoginComponent }
+  { path: 'login', component: LoginComponent },
+  { path: '**', component: NotFoundComponent }
 ];
 
 export const routing: ModuleWithProviders = RouterModule.forRoot(APP_ROUTES);
