@@ -57,12 +57,10 @@ export class RelatorioComponent implements OnInit, OnDestroy {
         let haNec = project['habilidades'].split(',');
         let points = this.CheckAvaliableHab(hab, haNec);
         if(points > 0){
-          workersCompatible.push({colaborador: exp.nome, projectCompatible:project, point: points});
+          workersCompatible.push({colaborador: exp, projectCompatible:project, point: points});
         }
     });
-    debugger;
      this.workersRankedByProject = this.rankWorkers(workersCompatible);
-    debugger;
   }
 
   rankWorkers(workersCompatible){
@@ -106,7 +104,6 @@ export class RelatorioComponent implements OnInit, OnDestroy {
       projectList => {
         this.hasResults = true;
         this.getMessagens();
-        debugger;
         return this.projectList = projectList
       },);
 
