@@ -169,6 +169,10 @@ export class RelatorioComponent implements OnInit, OnDestroy {
       this.projectSelected = project;
     }
 
+    printResults(){
+      window.print();
+    }
+
     ViewWorkerByProject(worker){
       this.workerExperience.get('nome').setValue(worker.colaborador.nome);
       this.workerExperience.get('projetoAtual').setValue(worker.colaborador.projetoAtual);
@@ -177,9 +181,5 @@ export class RelatorioComponent implements OnInit, OnDestroy {
       this.workerExperience.get('nomeProjeto').setValue(worker.projectCompatible.descricao);
       this.workerExperience.get('habilidadesNecessaria').setValue(worker.projectCompatible.habilidades);
       this.workerExperience.get('tempoMedio').setValue(worker.projectCompatible.tempos);
-
-
-
-
     }
   }
