@@ -84,9 +84,9 @@
         aria-describedby="search-addon" />
     </div>
     <ul class="list-group list-espec">
-      <li class="list-group-item" data-toggle="modal"  *ngFor="let worker of filterWorkers(); index as i;" data-target="#exampleModal">{{worker.nome}}
+      <li class="list-group-item" data-toggle="modal"  *ngFor="let worker of filterWorkers(); index as i;">{{worker.nome}}
         <button data-toggle="modal" data-target="#projectDetails" (click)="viewWorker(worker)"
-        class="btn btn-primary float-right">Editar</button>
+        class="btn btn-primary float-right" data-target="#exampleModal">Editar</button>
         <button (click)="deleteWorker(worker)"
         class="btn btn-danger float-right">Excluir</button></li>
 

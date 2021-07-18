@@ -28,4 +28,8 @@ export default class Util {
     return 'Login ou senha incorretos.'
   }
 
+  static dataDeleted(){
+    return 'Informação deletada com sucesso.'
+  }
+
 }
