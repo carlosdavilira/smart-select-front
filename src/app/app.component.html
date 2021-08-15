@@ -2,9 +2,9 @@
   <a class="navbar-brand" class="top-smart-select-text" router-link="/home">Smart Select</a>
 
   <a class="navbar-brand" routerLink="home">Home</a>
-  <a class="navbar-brand" [routerLink]="['/usuario', 'create']">Usuários</a>
-  <div class="navbar-brand dropdown">
-    <a class="navbar-brand dropdown-toggle" href="#" id="navbarDropdown" role="button" data-toggle="dropdown" aria-haspopup="true" aria-expanded="false">
+  <a *ngIf="currentUser.tipo === 'SUPER'" class="navbar-brand" [routerLink]="['/usuario', 'create']">Usuários</a>
+  <div class="navbar-brand dropdown" *ngIf="currentUser.tipo === 'SUPER' || currentUser.tipo === 'MANAGER'">
+    <a class="navbar-brand dropdown-toggle" id="navbarDropdown" role="button" data-toggle="dropdown" aria-haspopup="true" aria-expanded="false">
       Projeto
     </a>
     <div class="dropdown-menu" aria-labelledby="dropdownMenuButton">
@@ -13,12 +13,12 @@
     </div>
   </div>
   <div class="navbar-brand dropdown">
-    <a class="navbar-brand dropdown-toggle" href="#" id="navbarDropdown" role="button" data-toggle="dropdown" aria-haspopup="true" aria-expanded="false">
+    <a class="navbar-brand dropdown-toggle" id="navbarDropdown" role="button" data-toggle="dropdown" aria-haspopup="true" aria-expanded="false">
       Colaborador
     </a>
     <div class="dropdown-menu" aria-labelledby="dropdownMenuButton">
       <a class="dropdown-item"  [routerLink]="['/colaborador', 'create']">Cadastro de Colaborador</a>
-      <a class="dropdown-item"  [routerLink]="['/colaborador', 'view']">Consulta de Colaborador</a>
+      <a class="dropdown-item"  *ngIf="currentUser.tipo === 'SUPER' || currentUser.tipo === 'MANAGER'" [routerLink]="['/colaborador', 'view']">Consulta de Colaborador</a>
     </div>
   </div>
   <div class="navbar-brand dropdown">
@@ -26,11 +26,12 @@
       Documentações
     </a>
     <div class="dropdown-menu" aria-labelledby="dropdownMenuButton">
-      <a class="dropdown-item" href="https://docs.google.com/document/d/1K_T5rK4uzxSR0IrU1iLguA9I-oVi08VPh-5eEwjfBVM/edit?usp=sharing">Documentação do Sistema</a>
-      <div class="dropdown-divider"></div>
+      <a class="dropdown-item" *ngIf="currentUser.tipo === 'SUPER' || currentUser.tipo === 'MANAGER'" href="https://docs.google.com/document/d/1K_T5rK4uzxSR0IrU1iLguA9I-oVi08VPh-5eEwjfBVM/edit?usp=sharing">Documentação do Sistema</a>
+      <a class="dropdown-item" *ngIf="currentUser.tipo === 'USER'" href="https://docs.google.com/document/d/1eGhXLAW35KpXfbQXXhMXwMi3SS6PXBeJ9c-BwS3Ectk/edit?usp=sharing">Documentação do Sistema</a>
+     <div class="dropdown-divider"></div>
     </div>
   </div>
-  <a class="navbar-brand" routerLink="/rel">Relatório Colaborador x Projeto</a>
+  <a class="navbar-brand" *ngIf="currentUser.tipo === 'SUPER' || currentUser.tipo === 'MANAGER'" routerLink="/rel">Relatório Colaborador x Projeto</a>
 
   <button class="navbar-toggler" type="button" data-toggle="collapse" data-target="#navbarSupportedContent" aria-controls="navbarSupportedContent" aria-expanded="false" aria-label="Toggle navigation">
     <span class="navbar-toggler-icon"></span>
@@ -43,7 +44,7 @@
       </li>
     </ul>
     <form class="form-inline my-2 my-lg-0">
-      <a class="navbar-brand" >Usuário: Carlos David</a>
+      <a class="navbar-brand" >Usuário: {{currentUser.usuario}}</a>
       <!--input class="form-control mr-sm-2" type="search" placeholder="Search" aria-label="Search"-->
       <button (click)="logout()"class="btn btn-outline-secondary my-2 my-sm-0" type="">Logout</button>
     </form>

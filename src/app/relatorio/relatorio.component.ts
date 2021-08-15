@@ -51,17 +51,16 @@ export class RelatorioComponent implements OnInit, OnDestroy {
     this.results = true;
     let workersCompatible = [];
     let project = this.projectSelected;
-    let workers = this.experienceList;
-    this.experienceList.forEach(exp => {
-        let hab = exp.codigoColaborador['habilidades'].split(',');
+    let workers = this.workerList;
+    workers.forEach(exp => {
+        let hab = exp['habilidades'].split(',');
         let haNec = project['habilidades'].split(',');
         let points = this.CheckAvaliableHab(hab, haNec);
         if(points > 0){
-          workersCompatible.push({colaborador: exp.codigoColaborador, projectCompatible:project, point: points});
+          workersCompatible.push({colaborador: exp, projectCompatible:project, point: points});
         }
     });
      this.workersRankedByProject = this.rankWorkers(workersCompatible);
-
   }
 
   rankWorkers(workersCompatible){
@@ -114,7 +113,6 @@ export class RelatorioComponent implements OnInit, OnDestroy {
       this.workerService.list().pipe(takeUntil(this.destroyWorker$)).subscribe(
         workerList => {
           this.hasResults = true;
-            console.log(workerList);
           workerList.forEach(worker =>{
             this.doListExperience(worker);
           }
@@ -129,7 +127,6 @@ export class RelatorioComponent implements OnInit, OnDestroy {
           experienceList => {
             this.hasResults = true;
             this.getMessagens();
-            console.log(experienceList);
             let test = this.experienceList.concat(experienceList);
             return this.experienceList = this.experienceList.concat(experienceList);
           },);
@@ -172,6 +169,10 @@ export class RelatorioComponent implements OnInit, OnDestroy {
       this.projectSelected = project;
     }
 
+    printResults(){
+      window.print();
+    }
+
     ViewWorkerByProject(worker){
       this.workerExperience.get('nome').setValue(worker.colaborador.nome);
       this.workerExperience.get('projetoAtual').setValue(worker.colaborador.projetoAtual);
@@ -180,9 +181,5 @@ export class RelatorioComponent implements OnInit, OnDestroy {
       this.workerExperience.get('nomeProjeto').setValue(worker.projectCompatible.descricao);
       this.workerExperience.get('habilidadesNecessaria').setValue(worker.projectCompatible.habilidades);
       this.workerExperience.get('tempoMedio').setValue(worker.projectCompatible.tempos);
-
-
-
-
     }
   }

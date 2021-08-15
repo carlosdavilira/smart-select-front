@@ -35,6 +35,27 @@ export class ColaboradorBackEnd {
       );
   }
 
+  getByUserCode(worker: Colaborador): Observable<Colaborador> {
+    return this.http.post(`${Util.getUrl()}/colaborador/getByUser`,
+        JSON.stringify(worker),
+        { headers: this.headers},
+    ).pipe(
+        map((res) => {
+          if(res['length'] > 0){
+            let worker = new Colaborador()
+            worker.codigo = res[0]['codigo'];
+            worker.nome = res[0]['nome'];
+            worker.projetoAtual = res[0]['projetoAtual'];
+            worker.gerenteAtual = res[0]['gerenteAtual'];
+            worker.habilidades = res[0]['habilidades'];
+            return worker;
+          }
+          return null;
+          }),
+        share(),
+    );
+}
+
 post(worker: Colaborador): Observable<Colaborador> {
   return this.http.post(`${Util.getUrl()}/colaborador`,
       JSON.stringify(worker),
@@ -47,6 +68,24 @@ post(worker: Colaborador): Observable<Colaborador> {
         worker.projetoAtual = res['body']['projetoAtual'];
         worker.gerenteAtual = res['body']['gerenteAtual'];
         worker.habilidades = res['body']['habilidades'];
+        return worker;
+        }),
+      share(),
+  );
+}
+
+put(worker: Colaborador): Observable<Colaborador> {
+  return this.http.post(`${Util.getUrl()}/colaborador/update`,
+      JSON.stringify(worker),
+      { headers: this.headers },
+  ).pipe(
+      map((res) => {
+        let worker = new Colaborador()
+        worker.codigo = res['codigo'];
+        worker.nome = res['nome'];
+        worker.projetoAtual = res['projetoAtual'];
+        worker.gerenteAtual = res['gerenteAtual'];
+        worker.habilidades = res['habilidades'];
         return worker;
         }),
       share(),

@@ -1,3 +1,4 @@
+import { UsuarioBackEnd } from './../services/usuario-backend';
 import { Subject, Subscription } from 'rxjs';
 import { Component, OnDestroy, OnInit } from '@angular/core';
 import { ActivatedRoute } from '@angular/router';
@@ -21,14 +22,17 @@ export class ColaboradorComponent implements OnInit, OnDestroy {
     private workerService: ColaboradorService,
     private experienceService: ExperienceService,
     private route: ActivatedRoute,
-    private formBuilder: FormBuilder) { }
+    private formBuilder: FormBuilder,
+    private usuarioService: UsuarioBackEnd) { }
 
   consultMode = true;
   private showExp = true;
+  deleteStatus = false;
   private ListExperiencias = [];
   private mode = '';
   filterWorker = '';
   private Colaborador;
+  currentUser = null;
   modeInscription: Subscription;
 
     // -- Forms
@@ -40,6 +44,8 @@ export class ColaboradorComponent implements OnInit, OnDestroy {
     private destroyWorker$: Subject<void> = new Subject<void>();
     private destroyExperience$: Subject<void>[] = [];
     destroyGetExperience$: Subject<void> = new Subject<void>();
+    destroyUserData$: Subject<void> = new Subject<void>();
+    destroyGetExperienceByUser$: Subject<void> = new Subject<void>();
 
     requestMessage = '';
     submitted = false;
@@ -48,18 +54,26 @@ export class ColaboradorComponent implements OnInit, OnDestroy {
     lastIndexExperience = 0;
     workerList:any = [];
     experienceListView = [];
+    currentWorkerData:any = null;
 
   ngOnInit() {
+    this.currentUser = this.usuarioService.currentUserData();
+
+
 
     this.modeInscription =  this.route.params.subscribe(params => {
       this.mode = params['mode'];
       this.changeMode();
     })
+
     this.fillForm();
     this.fillFormExperiencias(this.lastIndexExperience);
+    this.doGetByUserCode();
     if(this.consultMode){
       this.doListWorkers();
     }
+
+
 
 
   }
@@ -67,9 +81,21 @@ export class ColaboradorComponent implements OnInit, OnDestroy {
   ngOnDestroy(){
     this.modeInscription.unsubscribe();
     this.destroyExperience$.forEach( exp => exp.unsubscribe());
+    this.destroyUserData$.unsubscribe();
+    this.destroyGetExperienceByUser$.unsubscribe();
   }
 
-  fillForm(){
+  fillForm(worker?){
+    if(worker){
+      this.workerForm = this.formBuilder.group({
+        nome: worker.nome,
+        projetoAtual : worker.projetoAtual,
+        gerenteAtual : worker.gerenteAtual,
+        habilidades : worker.habilidades,
+        experiencias : []
+    });
+    }
+    else {
       this.workerForm = this.formBuilder.group({
         nome: '',
         projetoAtual : '',
@@ -77,7 +103,7 @@ export class ColaboradorComponent implements OnInit, OnDestroy {
         habilidades : '',
         experiencias : []
     });
-
+  }
       this.editWorkerForm = this.formBuilder.group({
         nome : '',
         projetoAtual : '',
@@ -95,23 +121,43 @@ export class ColaboradorComponent implements OnInit, OnDestroy {
   });
   }
 
-  fillFormExperiencias(index){
-    this.experienciesForm.push(this.formBuilder.group({
-      nomeEmpresa : '',
-      cargo : '',
-      atividadesRealizadas : '',
-      inicio : null,
-      fim : null,
-    })
-    );
+  fillFormExperiencias(exp?){
+    if(exp){
+      this.experienciesForm.pop();
+      exp.forEach(exp => {
+        this.experienciesForm.push(this.formBuilder.group({
+          nomeEmpresa : exp.nomeEmpresa,
+          cargo : exp.cargo,
+          atividadesRealizadas : exp.atividadesRealizadas,
+          inicio : exp.inicio,
+          fim : exp.fim,
+        })
+        );
+      });
+    }else{
+      this.experienciesForm.push(this.formBuilder.group({
+        nomeEmpresa : '',
+        cargo : '',
+        atividadesRealizadas : '',
+        inicio : null,
+        fim : null,
+      })
+      );
+    }
+
   }
 
   formToDTO(form: FormGroup): Colaborador{
     let worker = new Colaborador();
+    if(this.currentWorkerData){
+      worker.codigo = this.currentWorkerData.codigo;
+    }
+
     worker.nome = form.value['nome'];
     worker.projetoAtual = form.value['projetoAtual'];
     worker.gerenteAtual = form.value['gerenteAtual'];
     worker.habilidades = form.value['habilidades'];
+    worker.codigoUsuario = {codigo: this.currentUser['codigo']};
     return worker;
   }
 
@@ -135,10 +181,16 @@ export class ColaboradorComponent implements OnInit, OnDestroy {
 
   onSubmit(){
     this.submitted = true;
-    console.log(this.workerForm.value);
-    if(this.workerForm.valid){
-      this.doSaveProject();
+    if(this.currentWorkerData){
+      if(this.workerForm.valid){
+        this.doUpdateWorker();
+      }
+    }else{
+      if(this.workerForm.valid){
+        this.doSaveWorker();
+      }
     }
+
   }
 
   onCancel(){
@@ -152,10 +204,9 @@ export class ColaboradorComponent implements OnInit, OnDestroy {
     this.lastIndexExperience++;
   }
 
-  async doSaveProject(){
+  async doSaveWorker(){
     this.workerService.save(this.formToDTO(this.workerForm)).pipe(takeUntil(this.destroyWorker$)).subscribe(
       workerSaved => {
-        console.log(workerSaved);
         this.doSaveExperience(this.experiencesFormToDTO(this.experienciesForm, workerSaved.codigo));
         this.validRequestMessage(TypeMessage.REQUEST_OK);
 
@@ -174,10 +225,23 @@ export class ColaboradorComponent implements OnInit, OnDestroy {
     }
 
   }
+  async doGetByUserCode(){
+    debugger;
+    let worker = new Colaborador();
+    worker.codigoUsuario = { codigo: this.currentUser.codigo};
+    this.workerService.getByUserCode((worker)).pipe(takeUntil(this.destroyWorker$)).subscribe(
+      worker => {
+       debugger;
+       this.currentWorkerData = worker;
+       this.fillForm( this.currentWorkerData);
+       this.doGetListExperience(worker);
+
+      },);
+  }
+
 
 
   validRequestMessage(requestResult){
-    debugger
     if(requestResult === TypeMessage.REQUEST_OK){
       this.requestMessage = Util.successSaveMessage();
       this.requestStatus = true;
@@ -190,8 +254,6 @@ export class ColaboradorComponent implements OnInit, OnDestroy {
       this.requestMessage = Util.errorSaveMessage();
       this.requestStatus = false;
     }
-
-    console.log(this.requestMessage);
   }
 
 
@@ -210,12 +272,22 @@ export class ColaboradorComponent implements OnInit, OnDestroy {
     this.workerService.list().pipe(takeUntil(this.destroyWorker$)).subscribe(
       workerList => {
         this.hasResults = true;
-          console.log(workerList);
           workerList.forEach(worker => this.doListExperience(worker));
         this.getMessagens();
         return this.workerList = workerList
       },);
     }
+
+async doGetListExperience(worker){
+  this.experienceService.list(worker).pipe(takeUntil(this.destroyGetExperienceByUser$)).subscribe(
+    experienceList => {
+      this.hasResults = true;
+      this.getMessagens();
+     this.fillFormExperiencias(experienceList);
+      //return this.experienceList = this.experienceList.concat(experienceList);
+          },);
+        }
+
 
    getMessagens(){
       if(this.hasResults){
@@ -249,7 +321,6 @@ export class ColaboradorComponent implements OnInit, OnDestroy {
 }
 
 viewWorker(worker){
-  debugger;
   this.viewWorkerForm.get('nome').setValue(worker.nome);
   this.viewWorkerForm.get('projetoAtual').setValue(worker.projetoAtual);
   this.viewWorkerForm.get('gerenteAtual').setValue(worker.gerenteAtual);
@@ -261,14 +332,24 @@ async doListExperience(worker){
     experienceList => {
     this.hasResults = true;
     this.getMessagens();
-    debugger;
-   // console.log(experienceList);
     return this.experienceListView = this.experienceListView.concat(experienceList);
     },);
         }
 
 deleteWorker(worker){
+    const index  = this.workerList.indexOf(worker);
+    this.workerList.splice(index,1);
+    this.deleteStatus = true;
+    this.requestMessage = Util.dataDeleted();
+}
 
+doUpdateWorker(){
+  this.workerService.update(this.formToDTO(this.workerForm)).pipe(takeUntil(this.destroyWorker$)).subscribe(
+    workerSaved => {
+      this.doSaveExperience(this.experiencesFormToDTO(this.experienciesForm, workerSaved.codigo));
+      this.validRequestMessage(TypeMessage.REQUEST_OK);
+
+    },);
 }
 
 }
